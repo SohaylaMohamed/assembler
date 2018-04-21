@@ -17,13 +17,14 @@ void readFile::read() {
         return;
     }
     while (inFile.good()) {
-        string thesub;
+        string thesub="";
         lineVector.clear();
         getline(inFile, line);
         if (Blank())
             continue;
         if (comment()) {
             lineVector.push_back(line);
+            allLines.push_back(lineVector);
             continue;
         }
         if(line.find_first_of('*') != -1){
@@ -35,7 +36,9 @@ void readFile::read() {
         std::istringstream iss(line);
         for(std::string line; iss >> line; )
             lineVector.push_back(line);
-        lineVector.push_back(thesub);
+        if(thesub != "") {
+            lineVector.push_back(thesub);
+        }
         allLines.push_back(lineVector);
     }
 }
