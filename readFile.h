@@ -4,6 +4,9 @@
 
 #ifndef ASSEMBLER_READFILE_H
 #define ASSEMBLER_READFILE_H
+#include<fstream>
+#include <regex>
+#include<vector>
 using namespace std;
 class readFile {
 public:
@@ -18,7 +21,6 @@ private:
     string fileName = "" ,line;
     bool comment();
     bool Blank();
-    bool separate();
 
 
 };

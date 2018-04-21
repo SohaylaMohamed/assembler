@@ -1,6 +1,8 @@
 #include <iostream>
-#include <vector>
+#include <fstream>
 #include <regex>
+#include <vector>
+
 #include "readFile.h"
 
 using namespace std;
@@ -28,7 +30,6 @@ void readFile::read() {
             int found=line.find_first_of('*');
             int sizestr=line.size();
             thesub = line.substr(found, sizestr);
-            lineVector.push_back(thesub);
             line.erase(found, sizestr);
         }
         std::istringstream iss(line);
