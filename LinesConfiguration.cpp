@@ -15,10 +15,16 @@ void LinesConfiguration::checkLine(vector<string> line) {
     if (line[line.size()-1].find_first_of('*')!= -1){
         tempLine.setComment(line[line.size()-1]);
         if (line.size()-1 == 1){
+
             tempLine.setOpCode(line[0]);
         }
         else if (line.size()-1 == 2){
-
+            if (line.)
+        }
+        else if(line.size()-1 == 3){
+            tempLine.setLabel(line[0]);
+            tempLine.setOpCode(line[1]);
+            tempLine.setOperand(line[2]);
         }
     }
 }
