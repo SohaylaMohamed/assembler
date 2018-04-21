@@ -14,6 +14,7 @@ class Operations {
 private:
 
     map <string, OpGroups > operations;
+    readOperations();
 
 public:
 
