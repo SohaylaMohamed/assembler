@@ -13,14 +13,14 @@ int Operations::readOperations() {
     //read operations file
 
 }
-OpGroups Operations::checkOperation(string key) {
+OpGroups Operations::*checkOperation(string key) {
 
     OpGroups result = operations.find(key);
     if(result == operations.end()){
         operations.erase(key);
         return NULL;
     } else {
-        return operations[key];
+        return &operations[key];
     }
 
 }

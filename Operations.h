@@ -19,7 +19,7 @@ private:
 public:
 
     Operations();
-    OpGroups checkOperation(string key);
+    OpGroups *checkOperation(string key);
 
 
 

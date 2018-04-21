@@ -16,7 +16,7 @@ protected:
 public:
     int getSize();
     void setSize(int size);
-    bool checkOperand(string currentOperand);
+    virtual bool checkOperand(string currentOperand);
 
 
 
