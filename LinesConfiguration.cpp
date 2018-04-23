@@ -60,5 +60,4 @@ void LinesConfiguration::checkLine(vector<string> line) {
             }
         }
     }
-    lines.p
 }
