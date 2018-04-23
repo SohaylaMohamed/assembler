@@ -12,18 +12,15 @@ using namespace std ;
 class Operations {
 
 private:
-
     map <string, OpGroups > operations;
-    readOperations();
+    Operations::readOperations();
 
 public:
-
     Operations();
     OpGroups *checkOperation(string key);
 
 
-
-
+    void readOperations();
 };
 
 
