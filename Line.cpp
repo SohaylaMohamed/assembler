@@ -4,3 +4,51 @@
 #include <iostream>
 using namespace std;
 #include "Line.h"
+
+int Line::getLineNo() const {
+    return lineNo;
+}
+
+void Line::setLineNo(int lineNo) {
+    Line::lineNo = lineNo;
+}
+
+const string &Line::getAddress() const {
+    return address;
+}
+
+void Line::setAddress(const string &address) {
+    Line::address = address;
+}
+
+const string &Line::getLabel() const {
+    return label;
+}
+
+void Line::setLabel(const string &label) {
+    Line::label = label;
+}
+
+const string &Line::getOpCode() const {
+    return opCode;
+}
+
+void Line::setOpCode(const string &opCode) {
+    Line::opCode = opCode;
+}
+
+const string &Line::getOperand() const {
+    return operand;
+}
+
+void Line::setOperand(const string &operand) {
+    Line::operand = operand;
+}
+
+const string &Line::getComment() const {
+    return comment;
+}
+
+void Line::setComment(const string &comment) {
+    Line::comment = comment;
+}

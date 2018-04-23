@@ -9,6 +9,31 @@ using namespace std;
 
 class Line {
 public:
+    int getLineNo() const;
+
+    void setLineNo(int lineNo);
+
+    const string &getAddress() const;
+
+    void setAddress(const string &address);
+
+    const string &getLabel() const;
+
+    void setLabel(const string &label);
+
+    const string &getOpCode() const;
+
+    void setOpCode(const string &opCode);
+
+    const string &getOperand() const;
+
+    void setOperand(const string &operand);
+
+    const string &getComment() const;
+
+    void setComment(const string &comment);
+
+private:
      int lineNo;
      string address;
      string label;

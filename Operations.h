@@ -14,11 +14,12 @@ class Operations {
 private:
 
     map <string, OpGroups > operations;
+    readOperations();
 
 public:
 
     Operations();
-    OpGroups checkOperation(string key);
+    OpGroups *checkOperation(string key);
 
 
 
