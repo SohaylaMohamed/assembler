@@ -40,8 +40,5 @@ private:
      string opCode;
      string operand;
      string comment;
-
 };
-
-
 #endif //ASSEMBLERPASS1_LINE_H
