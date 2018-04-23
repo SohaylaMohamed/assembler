@@ -34,8 +34,8 @@ void LinesConfiguration::checkLine(vector<string> line) {
             }
             else {
                 tempLine.setOpCode(line[0]);
-                OpGroups opGroups = operations.checkOperation(line[0]);
-                if(opGroups.checkOperand(line[1])){
+                OpGroups *opGroups = operations.checkOperation(line[0]);
+                if((*opGroups).checkOperand(line[1])){
                     tempLine.setOperand(line[1]);
                 }
                 else
@@ -44,8 +44,21 @@ void LinesConfiguration::checkLine(vector<string> line) {
         }
         else if(line.size()-1 == 3){
             tempLine.setLabel(line[0]);
-            tempLine.setOpCode(line[1]);
-            tempLine.setOperand(line[2]);
+            if(operations.checkOperation(line[1]) == NULL){
+                tempLine.setOpCode("NOTVALID");
+                tempLine.setOperand(line[2]);
+
+            }
+            else {
+                tempLine.setOpCode(line[1]);
+                OpGroups *opGroups = operations.checkOperation(line[1]);
+                if((*opGroups).checkOperand(line[2])){
+                    tempLine.setOperand(line[2]);
+                }
+                else
+                    tempLine.setOperand("NOTVALID");
+            }
         }
     }
+    lines.p
 }
