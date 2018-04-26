@@ -9,7 +9,7 @@ using namespace std;
 
 #include "LinesConfiguration.h"
 
-void LinesConfiguration::configureLines(vector<vector> lines) {
+void LinesConfiguration::configureLines(vector<vector<string>> lines) {
     for (int i = 0; i < lines.size(); ++i) {
         checkLine(lines[i]);
     }

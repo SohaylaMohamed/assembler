@@ -7,12 +7,12 @@ using namespace std ;
 
 OpGroup4::OpGroup4() {
 
-    OpGroup4::size = 2 ;
+    size = 2 ;
 
 }
-bool checkOperand(string currentOperand){
+inline bool checkOperand(string currentOperand){
 
-    string s = "^//d+$";
+    string s = "^[0-9]+$";
 
     regex m (s);
     if (regex_match(currentOperand , m)){

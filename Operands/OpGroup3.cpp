@@ -6,10 +6,10 @@
 
 using namespace std ;
 OpGroup3::OpGroup3() {
-    OpGroup3::size = 2 ;
+    size = 2 ;
 
 }
-bool checkOperand(string currentOperand){
+inline bool checkOperand(string currentOperand){
 
     string s = "^([AXSFTB]|[axstfb])$";
 

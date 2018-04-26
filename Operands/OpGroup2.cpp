@@ -7,9 +7,9 @@
 using  namespace std ;
 OpGroup2::OpGroup2() {
 
-    OpGroup2::size = 2 ;
+   this -> size = 2 ;
 }
-bool checkOperand(string currentOperand){
+inline bool checkOperand(string currentOperand){
 
     string s = "^([AXSTFB]|[axstfb])\\,([AXSTFB]|[axstfb])$";
 

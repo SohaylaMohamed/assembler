@@ -11,11 +11,12 @@
 
 class OpGroups {
 protected:
-    static int size;
+     int size;
 
 public:
         int getSize();
-        bool checkOperand(std::string currentOperand);
+
+    virtual bool checkOperand(std::string currentOperand);
 };
 
 

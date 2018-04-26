@@ -15,7 +15,7 @@ class LinesConfiguration {
 public:
     vector<Line> configuredLines;
 
-    void configureLines(vector<vector> lines);
+    void configureLines(vector<vector<string>> lines);
 
     void checkLine(vector<string> line);
 

@@ -12,7 +12,6 @@
 #include "Operands/OpGroup4.h"
 #include "Operands/OpGroup5.h"
 #include "Operands/OpGroup6.h"
-#include <Operands/OpGroup1.cpp>
 Operations::Operations() {
     Operations::readOperations();
 }
@@ -40,20 +39,21 @@ void Operations::readOperations() {
            group = new OpGroup4();
        }else if (operand == "r1,n"){
            group = new OpGroup5();
-       } else if (operand == NULL){
+       } else if (operand == ""){
            group = new OpGroup6();
        }
-        operations[result.at(0)] = group;
+        operations[result.at(0)] = *group;
 
     }
 
 }
 OpGroups* Operations::checkOperation(string key) {
-    OpGroups result = operations.find(key);
-    if(result == operations.end()){
+    std::map<string,OpGroups>::iterator it;
+    it = operations.find(key);
+    if(it == operations.end()){
         operations.erase(key);
         return NULL;
     } else {
-        return &operations[key];
+        return &it ->second;
     }
 }

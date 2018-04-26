@@ -6,10 +6,10 @@
 #include "OpGroup6.h"
 using namespace std ;
  OpGroup6::OpGroup6() {
-    OpGroup6::size = 1 ;
+   size = 1 ;
 }
 
-bool checkOperand(string currentOperand){
+inline bool checkOperand(string currentOperand){
 
     string s = "^$";
 

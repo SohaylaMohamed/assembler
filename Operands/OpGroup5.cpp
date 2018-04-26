@@ -7,11 +7,11 @@
 using namespace std ;
 OpGroup5::OpGroup5() {
 
-    OpGroup5::size = 2 ;
+    size = 2 ;
 }
-bool checkOperand(string currentOperand){
+inline bool checkOperand(string currentOperand){
 
-    string s = "^([AXSFTB]|[axstfb])//,//d+$";
+    string s = "^([AXSFTB]|[axstfb])//,[0-9]+$";
 
     regex m (s);
     if (regex_match(currentOperand , m)){

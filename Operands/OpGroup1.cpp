@@ -7,13 +7,13 @@
 using namespace std ;
 class OpGroup1 : public OpGroups {
 
-OpGroup1::OpGroup1() {
-    OpGroup1::size = 3;
+ OpGroup1() {
+     size = 3;
 }
 
-bool checkOperand(std::string currentOperand) {
-    string array[] = {"^#\\d+$", "^\\*$", "^\\w+$", "^\\d$"};
-    for (int i = 0; i < array->size(); ++i) {
+    inline bool checkOperand(std::string currentOperand) {
+        string array[] = {"^#\\d+$", "^\\*$", "^([a-zA-Z]||[0-9])+$", "^#([a-zA-Z]||[0-9])+$", "^\\d+$"};
+    for (int i = 0; i < 5; ++i) {
         regex m(array[i]);
         if (regex_match(currentOperand, m)) {
             return true;
