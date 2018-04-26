@@ -8,12 +8,8 @@
  OpGroups::getSize() {
         return OpGroups::size;
     }
-void OpGroups::setSize(int size) {
-OpGroups::setSize(size);
-}
 
 
 
 
 
-};

@@ -3,7 +3,7 @@
 //
 #include <map>
 #include <iostream>
-#include "OpGroups.h"
+#include "Operands/OpGroups.h"
 #include <string>
 #ifndef ASSEMBLERPASS1_OPERATIONS_H
 #define ASSEMBLERPASS1_OPERATIONS_H
@@ -11,16 +11,13 @@
 using namespace std ;
 class Operations {
 
-private:
+protected:
     map <string, OpGroups > operations;
-    Operations::readOperations();
+    void readOperations();
 
 public:
     Operations();
     OpGroups *checkOperation(string key);
-
-
-    void readOperations();
 };
 
 

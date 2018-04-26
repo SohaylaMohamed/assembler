@@ -3,4 +3,5 @@ project(assemblerPass1)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(assemblerPass1 main.cpp OpGroups.cpp OpGroups.h OpGroup1.cpp OpGroup2.cpp OpGroup3.cpp OpGroup4.cpp OpGroup5.cpp OpGroup6.cpp Line.cpp Line.h LinesConfiguration.cpp LinesConfiguration.h readFile.cpp readFile.h operations.cpp operations.h)
+add_executable(assemblerPass1 main.cpp Operands/OpGroups.cpp Operands/OpGroups.h Line.cpp Line.h LinesConfiguration.cpp
+        LinesConfiguration.h readFile.cpp readFile.h operations.cpp operations.h Operands/OpGroup1.cpp Operands/OpGroup1.h Operands/OpGroup2.cpp Operands/OpGroup2.h Operands/OpGroup3.cpp Operands/OpGroup3.h Operands/OpGroup4.cpp Operands/OpGroup4.h Operands/OpGroup5.cpp Operands/OpGroup5.h Operands/OpGroup6.cpp Operands/OpGroup6.h)

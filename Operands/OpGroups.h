@@ -9,19 +9,13 @@
 #ifndef ASSEMBLERPASS1_OPGROUPS_H
 #define ASSEMBLERPASS1_OPGROUPS_H
 
-using namespace std ;
 class OpGroups {
 protected:
-    int size;
+    static int size;
+
 public:
-    int getSize();
-    void setSize(int size);
-    virtual bool checkOperand(string currentOperand);
-
-
-
-
-
+        int getSize();
+        bool checkOperand(std::string currentOperand);
 };
 
 
