@@ -11,6 +11,7 @@ readFile::readFile(string fileName) {
     readFile::fileName = fileName;
 }
 void readFile::read() {
+    //Todo Parameter type mismatch
     inFile.open(fileName);
     if (!inFile.is_open()) {
         cout << "File Doesn't Exist!" << endl;
