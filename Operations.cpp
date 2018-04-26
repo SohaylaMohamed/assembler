@@ -32,7 +32,6 @@ int Operations::readOperations() {
 
 }
 OpGroups Operations::*checkOperation(string key) {
-    //Todo there is some error here
     OpGroups result = operations.find(key);
     if(result == operations.end()){
         operations.erase(key);
