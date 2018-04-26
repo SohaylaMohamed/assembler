@@ -2,7 +2,7 @@
 #include <fstream>
 #include <regex>
 #include <vector>
-
+#include <sstream>
 #include "readFile.h"
 
 using namespace std;
