@@ -13,11 +13,13 @@ using namespace std;
 
 class LinesConfiguration {
 public:
-    vector<Line> configuredLines;
 
-    void configureLines(vector<vector<string>> lines);
+    vector<Line> configureLines(vector<vector<string>> lines);
 
     void checkLine(vector<string> line);
+
+private:
+    vector<Line> configuredLines;
 };
 
 
