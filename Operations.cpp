@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <backward/vector.h>
 #include "Operations.h"
 #include "Operands/OpGroup1.h"
 #include "Operands/OpGroup2.h"
