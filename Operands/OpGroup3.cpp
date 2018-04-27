@@ -11,7 +11,7 @@ OpGroup3::OpGroup3() {
 }
 inline bool checkOperand(string currentOperand){
 
-    string s = "^([AXSFTB]|[axstfb])$";
+    string s = "^([AXSFLB]|[axslfb])$";
 
     regex m (s);
     if (regex_match(currentOperand , m)){

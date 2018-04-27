@@ -17,6 +17,7 @@ protected:
 public:
     Operations();
     void readOperations();
+
     OpGroups *checkOperation(string key);
 };
 
