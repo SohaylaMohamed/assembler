@@ -15,7 +15,7 @@
 #include "Operands/OpGroup7.h"
 #include "Operands/OpGroup8.h"
 #include "Operands/OpGroup9.h"
-
+#include "Operands/OpGroup10.h"
 
 
 void Operations::readOperations() {
@@ -52,9 +52,9 @@ void Operations::readOperations() {
                     group = new OpGroup8();
                 } else if (operand == "h") {
                     group = new OpGroup9();
-                } /*else if (operand == "e") {
+                } else if (operand == "e") {
                     group = new OpGroup10();
-                }*/
+                }
             }
             operations[result.at(0)] = *group;
         }

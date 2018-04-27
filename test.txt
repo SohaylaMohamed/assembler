@@ -1,3 +1,4 @@
+Start 000A
 .THIS IS A COMMENT LINE
 
 
@@ -6,5 +7,6 @@ LBL1         BYTE     C'ABCDEF'
 LBL2  RESB         4                   *hanan samir
 LBL2 RESW 1
 TOP               LDA ZERO
-LDX                       #INDEX
+LDX                       #INDEX
+
 end
