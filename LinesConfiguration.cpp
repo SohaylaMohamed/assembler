@@ -24,53 +24,87 @@ void LinesConfiguration::checkLine(vector<string> line) {
             (line[i])[j] = toupper((line[i])[j]);
         }
     }
+    //Todo length of label/operation/operand
     //TODO handle the error of having repeated label/operation/operand in the same line
     Line tempLine;
     Operations operations;
 
     if (line[line.size() - 1].find_first_of('*') != -1) {
-        tempLine.setComment(line[line.size() - 1]);
+        if (line[line.size() - 1].size()<=30)
+            tempLine.setComment(line[line.size() - 1]);
+        else
+            tempLine.setComment("INVALID");
     }else {
         tempLine.setComment("");
     }
-    if (line.size() - 1 == 1) {
-        if (line[0].find_first_of('.') != -1) {
-            tempLine.setComment(line[0]);
-        } else {
-            tempLine.setOpCode(line[0]);
-        }
-    } else if (line.size() - 1 == 2) {
-        if (!operations.checkOperation(line[0])) {
-            tempLine.setLabel(line[0]);
-            if (!operations.checkOperation(line[1]))
-                tempLine.setOpCode("INVALID");
+        if (line.size() - 1 == 1) {
+            if (line[0].find_first_of('.') != -1) {
+                if (line[0].size()<=30)
+                    tempLine.setComment(line[0]);
+                else
+                    tempLine.setComment("INVALID");
+            } else {
+                if (line[0].size()<=5)
+                    tempLine.setOpCode(line[0]);
+                else
+                    tempLine.setOpCode("INVALID");
+            }
+        } else if (line.size() - 1 == 2) {
+            if (!operations.checkOperation(line[0])) {
+                if (line[0].size()<=8)
+                    tempLine.setLabel(line[0]);
+                else
+                    tempLine.setLabel("INVALID");
+                if (!operations.checkOperation(line[1]))
+                    tempLine.setOpCode("INVALID");
+                else
+                {
+                    if (line[1].size()<=5)
+                        tempLine.setOpCode(line[1]);
+                    else
+                        tempLine.setOpCode("INVALID");
+                }
+            } else {
+                if (line[0].size()<=5)
+                    tempLine.setOpCode(line[0]);
+                else
+                    tempLine.setOpCode("INVALID");
+
+                OpGroups *opGroups = operations.checkOperation(line[0]);
+                if ((*opGroups).checkOperand(line[1])) {
+                    if (line[1].size()<=18)
+                        tempLine.setOperand(line[1]);
+                    else
+                        tempLine.setOperand("INVALID");
+                } else
+                    tempLine.setOperand("INVALID");
+            }
+        } else if (line.size() - 1 == 3) {
+            if (line[0].size()<=8)
+                tempLine.setLabel(line[0]);
             else
-                tempLine.setOpCode(line[1]);
-        } else {
-            tempLine.setOpCode(line[0]);
-            OpGroups *opGroups = operations.checkOperation(line[0]);
-            if ((*opGroups).checkOperand(line[1])) {
-                tempLine.setOperand(line[1]);
-            } else
-                tempLine.setOperand("INVALID");
+                tempLine.setLabel("INVALID");
+            if (!operations.checkOperation(line[1])) {
+                tempLine.setOpCode("INVALID");
+                if (line[2].size()<=18)
+                    tempLine.setOperand(line[2]);
+                else
+                    tempLine.setOperand("INVALID");
+            } else {
+                if (line[1].size()<=5)
+                    tempLine.setOpCode(line[1]);
+                else
+                    tempLine.setOpCode("INVALID");
+                OpGroups *opGroups = operations.checkOperation(line[1]);
+                if ((*opGroups).checkOperand(line[2])) {
+                    if (line[2].size()<=18)
+                        tempLine.setOperand(line[2]);
+                    else
+                        tempLine.setOperand("INVALID");
+                } else
+                    tempLine.setOperand("INVALID");
+            }
         }
-    } else if (line.size() - 1 == 3) {
-        tempLine.setLabel(line[0]);
-        if (!operations.checkOperation(line[1])) {
-            tempLine.setOpCode("INVALID");
-            tempLine.setOperand(line[2]);
-
-        } else {
-            tempLine.setOpCode(line[1]);
-            OpGroups *opGroups = operations.checkOperation(line[1]);
-            if ((*opGroups).checkOperand(line[2])) {
-                tempLine.setOperand(line[2]);
-            } else
-                tempLine.setOperand("INVALID");
-        }
-    }
-    configuredLines.push_back(tempLine);
-
-
+        configuredLines.push_back(tempLine);
 }
 
