@@ -30,6 +30,9 @@ void LinesConfiguration::checkLine(vector<string> line) {
 
     if (line[line.size() - 1].find_first_of('*') != -1) {
         tempLine.setComment(line[line.size() - 1]);
+    }else {
+        tempLine.setComment("");
+    }
         if (line.size() - 1 == 1) {
             if (line[0].find_first_of('.') != -1) {
                 tempLine.setComment(line[0]);
@@ -67,7 +70,7 @@ void LinesConfiguration::checkLine(vector<string> line) {
             }
         }
         configuredLines.push_back(tempLine);
-    }
+
 
 }
 
