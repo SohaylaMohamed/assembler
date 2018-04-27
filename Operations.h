@@ -13,11 +13,15 @@ class Operations {
 
 protected:
     map <string, OpGroups > operations;
+    void readOperations();
 
 public:
     Operations();
+<<<<<<< Updated upstream
     void readOperations();
 
+=======
+>>>>>>> Stashed changes
     OpGroups *checkOperation(string key);
 };
 
