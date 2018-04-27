@@ -2,12 +2,12 @@
 // Created by HP on 4/24/2018.
 //
 
-#include "OpGroups.h"
+#include "OpGroup1.h"
 
 using namespace std ;
-class OpGroup1 : public OpGroups {
 
- OpGroup1() {
+
+ OpGroup1::OpGroup1() {
      size = 3;
 }
 
@@ -22,4 +22,3 @@ class OpGroup1 : public OpGroups {
     return false;
 }
 
-};
