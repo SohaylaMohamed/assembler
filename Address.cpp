@@ -36,12 +36,13 @@ vector<string> Address::setAddresses(vector<Line> configuredLines) {
     string address = ss.str();
     addresses.push_back(address);
     int i = 1;
+    //Todo if current line is a comment put empty address
     while (configuredLines[i].getOpCode() != "END") {
         Line currentLine = configuredLines[i];
-        if (currentLine.getComment() == NULL) {
+        if (currentLine.getComment() != "") {
             string currentLineOpcode = currentLine.getOpCode();
             OpGroups *opGroups = operations.checkOperation(currentLineOpcode);
-            if (opGroups != NULL) {
+            if (opGroups) {
                 //todo ask if getSize() returns the instruction length
                 locCRT += opGroups->getSize();
             } else if (currentLineOpcode == "WORD") {
