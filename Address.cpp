@@ -55,8 +55,22 @@ void Address::setAddresses(vector<Line> configuredLines) {
                 if (!(istringstream(currentLine.getOperand()) >> integerOperand)) integerOperand = 0;
                 locCRT += integerOperand;
             } else if (currentLineOpcode == "BYTE") {
-                //Todo for  C'test string' , locCTR +=13
-
+                //Todo for  C'test string' , locCTR +=13 , X'05' ,locCRT +=1
+                string currentLineOperand = currentLine.getOperand();
+                 if (currentLineOperand[0] == 'X')
+                 {
+                     if (currentLineOperand[1] == '\'' && currentLineOperand[currentLineOperand.size()-1] == '\'')
+                        locCRT += 1;
+                     else
+                         currentLine.setOperand("INVALID");
+                 }
+                 else if (currentLineOperand[0]=='C')
+                 {
+                     if (currentLineOperand[1] == '\'' && currentLineOperand[currentLineOperand.size()-1] == '\'')
+                     {
+                         locCRT += (currentLineOperand.size()-1)-2;
+                     }
+                 }
             } else
                 currentLine.setOpCode("INVALID");
         }
