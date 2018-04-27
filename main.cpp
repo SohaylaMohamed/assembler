@@ -18,8 +18,7 @@ int main() {
         cout<<" "<<endl;
     }
     LinesConfiguration linesConfiguration ;
-    linesConfiguration.configureLines(lines);
-    vector<Line> outlines = linesConfiguration.configuredLines;
+    vector<Line> outlines = linesConfiguration.configureLines(lines);
     for (int k = 0; k < outlines.size(); ++k) {
         cout<<outlines[k].getLineNo()<<" ";
         cout<<outlines[k].getAddress()<<" ";
