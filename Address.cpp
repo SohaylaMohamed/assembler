@@ -70,6 +70,8 @@ void Address::setAddresses(vector<Line> configuredLines) {
                      {
                          locCRT += (currentLineOperand.size()-1)-2;
                      }
+                     else
+                         currentLine.setOperand("INVALID");
                  }
             } else
                 currentLine.setOpCode("INVALID");
