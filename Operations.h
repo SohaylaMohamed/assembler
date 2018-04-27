@@ -13,10 +13,9 @@ class Operations {
 
 protected:
     map <string, OpGroups > operations;
-    void readOperations();
 
 public:
-    Operations();
+    void readOperations();
     OpGroups *checkOperation(string key);
 };
 

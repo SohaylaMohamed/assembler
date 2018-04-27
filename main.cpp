@@ -4,13 +4,14 @@
 #include "readFile.h"
 #include "LinesConfiguration.h"
 #include "Operations.h"
+#include "Address.h"
 
 using namespace std;
 
 
 int main() {
 
-    readFile fileLoader("C:\\Users\\HP\\CLionProjects\\assemblerPass1\\test.txt");
+    readFile fileLoader("C:\\Users\\LENOVO\\CLionProjects\\assembler\\test.txt");
     fileLoader.read();
     vector<vector <string>> lines= fileLoader.getLines();
     for(int i=0;i<lines.size();i++){
@@ -21,9 +22,10 @@ int main() {
     }
     LinesConfiguration linesConfiguration ;
     vector<Line> outlines = linesConfiguration.configureLines(lines);
+    Address address;
+    vector<string> addresses =  address.setAddresses(outlines);
     for (int k = 0; k < outlines.size(); ++k) {
-        cout<<outlines[k].getLineNo()<<" ";
-        cout<<outlines[k].getAddress()<<" ";
+        cout<<addresses[k]<<" ";
         cout<<outlines[k].getLabel()<<" ";
         cout<<outlines[k].getOpCode()<<" ";
         cout<<outlines[k].getOperand()<<" ";

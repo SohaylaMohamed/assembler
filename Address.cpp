@@ -1,20 +1,22 @@
 //
 // Created by karim on 4/25/2018.
 //
-
+#include <iostream>
 #include "Address.h"
 #include "Line.h"
 #include "Operations.h"
-#include <iostream>
 #include <iomanip>
 #include <locale>
 #include <sstream>
 #include <string>
-
+#include <regex>
 using namespace std;
+
+Address::Address() {}
 
 vector<string> Address::setAddresses(vector<Line> configuredLines) {
     Operations operations;
+    operations.readOperations();
     int locCRT = 0;
     string firstLineOpCode = configuredLines[0].getOpCode();
     string firstLineOperand = configuredLines[0].getOperand();
@@ -39,10 +41,10 @@ vector<string> Address::setAddresses(vector<Line> configuredLines) {
     //Todo if current line is a comment put empty address
     while (configuredLines[i].getOpCode() != "END") {
         Line currentLine = configuredLines[i];
-        if (currentLine.getComment() != "") {
+        if (currentLine.getOpCode() != "INVALID") {
             string currentLineOpcode = currentLine.getOpCode();
             OpGroups *opGroups = operations.checkOperation(currentLineOpcode);
-            if (opGroups) {
+            if (opGroups->getSize()!=0) {
                 //todo ask if getSize() returns the instruction length
                 locCRT += opGroups->getSize();
             } else if (currentLineOpcode == "WORD") {

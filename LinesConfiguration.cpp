@@ -16,7 +16,7 @@ vector<Line> LinesConfiguration::configureLines(vector<vector<string>> lines) {
     }
     for (int j = 0; j < configuredLines.size(); ++j) {
         for (int k =j+1 ; k < configuredLines.size(); ++k) {
-            if (configuredLines[j].getLabel() == configuredLines[k].getLabel()){
+            if (configuredLines[j].getLabel() == configuredLines[k].getLabel() && (configuredLines[j].getLabel() != "")){
                 configuredLines[k].setLabel("INVALID");
             }
         }
@@ -33,19 +33,21 @@ void LinesConfiguration::checkLine(vector<string> line) {
     //TODO handle the error of having repeated label/operation/operand in the same line
     Line tempLine;
     Operations operations;
+    operations.readOperations();
 
     if (line[line.size() - 1].find_first_of('*') != -1) {
         tempLine.setComment(line[line.size() - 1]);
+        line.pop_back();
     }else {
         tempLine.setComment("");
     }
-        if (line.size() - 1 == 1) {
+        if (line.size()  == 1) {
             if (line[0].find_first_of('.') != -1) {
                 tempLine.setComment(line[0]);
             } else {
                 tempLine.setOpCode(line[0]);
             }
-        } else if (line.size() - 1 == 2) {
+        } else if (line.size()  == 2) {
             if (!operations.checkOperation(line[0])) {
                 tempLine.setLabel(line[0]);
                 if (!operations.checkOperation(line[1]))
@@ -60,7 +62,7 @@ void LinesConfiguration::checkLine(vector<string> line) {
                 } else
                     tempLine.setOperand("INVALID");
             }
-        } else if (line.size() - 1 == 3) {
+        } else if (line.size()  == 3) {
             tempLine.setLabel(line[0]);
             if (!operations.checkOperation(line[1])) {
                 tempLine.setOpCode("INVALID");
