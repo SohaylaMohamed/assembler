@@ -81,10 +81,8 @@ vector<string> Address::setAddresses(vector<Line> configuredLines) {
         }
         else
         {
-            std::ostringstream ss;
-            ss << std::hex << locCRT;
-            string address = ss.str();
-            addresses.push_back(address);
+
+            addresses.push_back(addresses[addresses.size()-1]);
         }
         i++;
         /********************CONVERTING DECIMAL TO HEX *******/
