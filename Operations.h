@@ -17,11 +17,6 @@ protected:
 
 public:
     Operations();
-<<<<<<< Updated upstream
-    void readOperations();
-
-=======
->>>>>>> Stashed changes
     OpGroups *checkOperation(string key);
 };
 
