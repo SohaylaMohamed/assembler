@@ -13,7 +13,7 @@
 
 using namespace std;
 
-void Address::setAddresses(vector<Line> configuredLines) {
+vector<string> Address::setAddresses(vector<Line> configuredLines) {
     Operations operations;
     int locCRT = 0;
     string firstLineOpCode = configuredLines[0].getOpCode();
@@ -83,4 +83,6 @@ void Address::setAddresses(vector<Line> configuredLines) {
         string address = ss.str();
         addresses.push_back(address);
     }
+
+    return addresses;
 };
