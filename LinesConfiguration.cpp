@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Line.h"
 #include "Operations.h"
+#include <ctype.h>
 
 using namespace std;
 
@@ -16,7 +17,11 @@ void LinesConfiguration::configureLines(vector<vector<string>> lines) {
 }
 
 void LinesConfiguration::checkLine(vector<string> line) {
-    //TODO all strings must be in an uppercase form
+    for (int i = 0; i < line.size(); ++i) {
+        for (int j = 0; j < line[i].size(); ++j) {
+            (line[i])[j] = toupper((line[i])[j]);
+        }
+    }
     //TODO handle the error of having repeated label/operation/operand in the same line
     Line tempLine;
     Operations operations;
@@ -61,4 +66,6 @@ void LinesConfiguration::checkLine(vector<string> line) {
         }
         configuredLines.push_back(tempLine);
     }
+
 }
+

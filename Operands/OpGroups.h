@@ -16,7 +16,7 @@ protected:
 public:
         int getSize();
 
-    virtual bool checkOperand(std::string currentOperand);
+        bool checkOperand(std::string currentOperand);
 };
 
 

@@ -18,7 +18,6 @@ public:
     void configureLines(vector<vector<string>> lines);
 
     void checkLine(vector<string> line);
-
 };
 
 
