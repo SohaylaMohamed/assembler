@@ -10,10 +10,12 @@ using namespace std;
 
 #include "LinesConfiguration.h"
 
-void LinesConfiguration::configureLines(vector<vector<string>> lines) {
+vector<Line> LinesConfiguration::configureLines(vector<vector<string>> lines) {
     for (int i = 0; i < lines.size(); ++i) {
         checkLine(lines[i]);
     }
+
+    return configuredLines;
 }
 
 void LinesConfiguration::checkLine(vector<string> line) {
