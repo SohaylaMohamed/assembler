@@ -79,6 +79,13 @@ vector<string> Address::setAddresses(vector<Line> configuredLines) {
             } else
                 currentLine.setOpCode("INVALID");
         }
+        else
+        {
+            std::ostringstream ss;
+            ss << std::hex << locCRT;
+            string address = ss.str();
+            addresses.push_back(address);
+        }
         i++;
         /********************CONVERTING DECIMAL TO HEX *******/
         std::ostringstream ss;
