@@ -27,6 +27,7 @@ void LinesConfiguration::checkLine(vector<string> line) {
     //TODO handle the error of having repeated label/operation/operand in the same line
     Line tempLine;
     Operations operations;
+    operations.readOperations();
 
     if (line[line.size() - 1].find_first_of('*') != -1) {
         tempLine.setComment(line[line.size() - 1]);

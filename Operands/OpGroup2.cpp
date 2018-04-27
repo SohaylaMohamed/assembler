@@ -11,7 +11,7 @@ OpGroup2::OpGroup2() {
 }
 inline bool checkOperand(string currentOperand){
 
-    string s = "^([AXSTFB]|[axstfb])\\,([AXSTFB]|[axstfb])$";
+    string s = "^([AXSLFB]|[axslfb])\\,([AXSLFB]|[axslfb])$";
 
     regex m (s);
     if (regex_match(currentOperand , m)){
