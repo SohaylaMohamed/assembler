@@ -14,7 +14,13 @@ vector<Line> LinesConfiguration::configureLines(vector<vector<string>> lines) {
     for (int i = 0; i < lines.size(); ++i) {
         checkLine(lines[i]);
     }
-
+    for (int j = 0; j < configuredLines.size(); ++j) {
+        for (int k =j+1 ; k < configuredLines.size(); ++k) {
+            if (configuredLines[j].getLabel() == configuredLines[k].getLabel()){
+                configuredLines[k].setLabel("INVALID");
+            }
+        }
+    }
     return configuredLines;
 }
 
@@ -105,6 +111,7 @@ void LinesConfiguration::checkLine(vector<string> line) {
                     tempLine.setOperand("INVALID");
             }
         }
+
         configuredLines.push_back(tempLine);
 }
 
