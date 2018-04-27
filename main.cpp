@@ -3,12 +3,14 @@
 #include <vector>
 #include "readFile.h"
 #include "LinesConfiguration.h"
+#include "Operations.h"
 
 using namespace std;
 
 
 int main() {
-    readFile fileLoader("C:\\Users\\LENOVO\\CLionProjects\\assembler\\test.txt");
+
+    readFile fileLoader("C:\\Users\\HP\\CLionProjects\\assemblerPass1\\test.txt");
     fileLoader.read();
     vector<vector <string>> lines= fileLoader.getLines();
     for(int i=0;i<lines.size();i++){
