@@ -40,9 +40,9 @@ void LinesConfiguration::checkLine(vector<string> line) {
                 tempLine.setOpCode(line[0]);
             }
         } else if (line.size() - 1 == 2) {
-            if (operations.checkOperation(line[0]) == NULL) {
+            if (operations.checkOperation(line[0])) {
                 tempLine.setLabel(line[0]);
-                if (operations.checkOperation(line[1]) == NULL)
+                if (operations.checkOperation(line[1]))
                     tempLine.setOpCode("INVALID");
                 else
                     tempLine.setOpCode(line[1]);
@@ -56,7 +56,7 @@ void LinesConfiguration::checkLine(vector<string> line) {
             }
         } else if (line.size() - 1 == 3) {
             tempLine.setLabel(line[0]);
-            if (operations.checkOperation(line[1]) == NULL) {
+            if (operations.checkOperation(line[1])) {
                 tempLine.setOpCode("INVALID");
                 tempLine.setOperand(line[2]);
 
