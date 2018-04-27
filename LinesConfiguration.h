@@ -18,6 +18,8 @@ public:
 
     void checkLine(vector<string> line);
 
+    bool checkOp(string string1);
+
 private:
     vector<Line> configuredLines;
 };
