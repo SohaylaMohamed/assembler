@@ -37,11 +37,11 @@ vector<string> Address::setAddresses(vector<Line> configuredLines) {
     ss << std::hex << locCRT;
     string address = ss.str();
     addresses.push_back(address);
-    int i = 1;
+
     //Todo if current line is a comment put empty address
     while (configuredLines[i].getOpCode() != "END") {
         Line currentLine = configuredLines[i];
-        if (currentLine.getOpCode() != "INVALID") {
+        if (currentLine.getOpCode() != "INVALID" && currentLine.getComment()) {
             string currentLineOpcode = currentLine.getOpCode();
             OpGroups *opGroups = operations.checkOperation(currentLineOpcode);
             if (opGroups->getSize()!=0) {
@@ -81,8 +81,10 @@ vector<string> Address::setAddresses(vector<Line> configuredLines) {
         }
         else
         {
-
-            addresses.push_back(addresses[addresses.size()-1]);
+            if (addresses.size()!=0)
+                addresses.push_back(addresses[addresses.size()-1]);
+            else
+                addresses.push_back("0");
         }
         i++;
         /********************CONVERTING DECIMAL TO HEX *******/

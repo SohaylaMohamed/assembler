@@ -22,7 +22,7 @@ void Operations::readOperations() {
 
     std::string line;
     ifstream myfile;
-    myfile.open("C:\\Users\\LENOVO\\Desktop\\operations.txt");
+    myfile.open("C:\\Users\\karim\\Desktop\\operations.txt");
     if (myfile.is_open()) {
 
         while (getline(myfile, line)) {
