@@ -11,7 +11,7 @@ OpGroup10::OpGroup10() {
 }
 inline bool checkOperand(string currentOperand){
 
-    string s = "(^$)|(^*$)|([A-Za-z]+)|([0-9]+)";
+    string s = "(^$)|(^*$)|(^[A-Za-z]+$)|(^[0-9]+$)";
 
     regex m (s);
     if (regex_match(currentOperand , m)){

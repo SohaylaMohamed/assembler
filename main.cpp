@@ -22,7 +22,7 @@ int main() {
     }
     LinesConfiguration linesConfiguration ;
     vector<Line> outlines = linesConfiguration.configureLines(lines);
-    Address address;
+   Address address;
     vector<string> addresses =  address.setAddresses(outlines);
     for (int k = 0; k < outlines.size(); ++k) {
         cout<<addresses[k]<<" ";
@@ -30,9 +30,6 @@ int main() {
         cout<<outlines[k].getOpCode()<<" ";
         cout<<outlines[k].getOperand()<<" ";
         cout<<outlines[k].getComment()<<" \n";
-
-
-
 
     }
     return 0;

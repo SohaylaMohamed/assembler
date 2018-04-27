@@ -20,7 +20,9 @@ vector<string> Address::setAddresses(vector<Line> configuredLines) {
     int locCRT = 0;
     string firstLineOpCode = configuredLines[0].getOpCode();
     string firstLineOperand = configuredLines[0].getOperand();
+    int i = 0 ;
     if (firstLineOpCode == "START") {
+        i++;
         if (firstLineOperand != "INVALID") {
             /********************CONVERTING HEX TO DECIMAL *******/
             std::istringstream(firstLineOperand) >> std::hex >> locCRT;
@@ -37,11 +39,10 @@ vector<string> Address::setAddresses(vector<Line> configuredLines) {
     ss << std::hex << locCRT;
     string address = ss.str();
     addresses.push_back(address);
-
     //Todo if current line is a comment put empty address
     while (configuredLines[i].getOpCode() != "END") {
         Line currentLine = configuredLines[i];
-        if (currentLine.getOpCode() != "INVALID" && currentLine.getComment()) {
+        if (currentLine.getComment().find_first_of(".") == -1) {
             string currentLineOpcode = currentLine.getOpCode();
             OpGroups *opGroups = operations.checkOperation(currentLineOpcode);
             if (opGroups->getSize()!=0) {
@@ -79,13 +80,7 @@ vector<string> Address::setAddresses(vector<Line> configuredLines) {
             } else
                 currentLine.setOpCode("INVALID");
         }
-        else
-        {
-            if (addresses.size()!=0)
-                addresses.push_back(addresses[addresses.size()-1]);
-            else
-                addresses.push_back("0");
-        }
+
         i++;
         /********************CONVERTING DECIMAL TO HEX *******/
         std::ostringstream ss;
@@ -94,5 +89,6 @@ vector<string> Address::setAddresses(vector<Line> configuredLines) {
         addresses.push_back(address);
     }
 
+    addresses.push_back("1");
     return addresses;
 };
