@@ -5,6 +5,7 @@
 #include "LinesConfiguration.h"
 #include "Operations.h"
 #include "Address.h"
+#include "writeFile.h"
 
 using namespace std;
 
@@ -22,8 +23,10 @@ int main() {
     }
     LinesConfiguration linesConfiguration ;
     vector<Line> outlines = linesConfiguration.configureLines(lines);
-   Address address;
+    Address address;
     vector<string> addresses =  address.setAddresses(outlines);
+    writeFile write ;
+    write.write(addresses,outlines);
     for (int k = 0; k < outlines.size(); ++k) {
         cout<<addresses[k]<<" ";
         cout<<outlines[k].getLabel()<<" ";
