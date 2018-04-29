@@ -41,6 +41,11 @@ private:
     string opCode;
     string operand;
     string comment;
+    string error;
+public:
+    const string &getError() const;
+
+    void setError(const string &error);
 };
 
 #endif //ASSEMBLERPASS1_LINE_H

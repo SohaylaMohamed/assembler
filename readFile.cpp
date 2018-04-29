@@ -18,7 +18,7 @@ void readFile::read() {
         return;
     }
     while (inFile.good()) {
-        string thesub="";
+        string thesub,cstring="";
         lineVector.clear();
         getline(inFile, line);
         if (Blank())
@@ -27,6 +27,12 @@ void readFile::read() {
             lineVector.push_back(line);
             allLines.push_back(lineVector);
             continue;
+        }
+        if (cString()){
+            int found=line.find_first_of('\'')-1;
+            int sizestr=line.size();
+            cstring = line.substr(found, sizestr);
+            line.erase(found, sizestr);
         }
         if(line.find_first_of('*') != -1){
             int found=line.find_first_of('*');
@@ -39,6 +45,9 @@ void readFile::read() {
             lineVector.push_back(line);
         if(thesub != "") {
             lineVector.push_back(thesub);
+        }
+        if(cstring != "") {
+            lineVector.push_back(cstring);
         }
         allLines.push_back(lineVector);
     }
@@ -55,4 +64,8 @@ vector<vector<string>> readFile::getLines() {
     bool readFile::Blank() {
     regex blank("\\s*");
     return regex_match(line, blank);
+}
+bool readFile::cString(){
+    regex cSrt("^[a-zA-Z0-9\\s]+[c]\\'[a-zA-Z0-9\\s]+\\'\\s* || ^[a-zA-Z0-9\\s]+[c]\\'\\s(.*)\\'\\s*");
+    return regex_match(line, cSrt);
 }

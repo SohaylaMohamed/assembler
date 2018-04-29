@@ -14,7 +14,7 @@ using namespace std;
 
 Address::Address() {}
 
-vector<string> Address::setAddresses(vector<Line> configuredLines) {
+vector<Line> Address::setAddresses(vector<Line> configuredLines) {
     Operations operations;
     operations.readOperations();
     int locCRT = 0;
@@ -23,7 +23,7 @@ vector<string> Address::setAddresses(vector<Line> configuredLines) {
     int i = 0 ;
     if (firstLineOpCode == "START") {
         i++;
-        if (firstLineOperand != "INVALID") {
+        if (!firstLineOperand.empty()) {
             /********************CONVERTING HEX TO DECIMAL *******/
             std::istringstream(firstLineOperand) >> std::hex >> locCRT;
         }
@@ -33,12 +33,14 @@ vector<string> Address::setAddresses(vector<Line> configuredLines) {
         ss << std::hex << locCRT;
         string address = ss.str();
         addresses.push_back(address);
+        configuredLines[0].setAddress(address);
     }
     /********************CONVERTING DECIMAL TO HEX *******/
     std::ostringstream ss;
     ss << std::hex << locCRT;
     string address = ss.str();
     addresses.push_back(address);
+    configuredLines[i].setAddress(address);
     //Todo if current line is a comment put empty address
     while (configuredLines[i].getOpCode() != "END") {
         Line currentLine = configuredLines[i];
@@ -48,7 +50,27 @@ vector<string> Address::setAddresses(vector<Line> configuredLines) {
             if (opGroups->getSize()!=0) {
                 //todo ask if getSize() returns the instruction length
                 locCRT += opGroups->getSize();
-            } else if (currentLineOpcode == "WORD") {
+            }
+            else if(currentLineOpcode == "ORG"){
+                int integerOperand;
+                bool flag =false;
+                if (!(istringstream(currentLine.getOperand()) >> integerOperand)) {
+                    for (int j = i-1; j >=0 ; --j) {
+                        if (configuredLines[j].getLabel() == currentLine.getOperand()){
+                            std::istringstream(configuredLines[j].getAddress()) >> std::hex >> locCRT;
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if(!flag){
+                        configuredLines[i].setError("*****Invalid operand");
+                    }
+                }
+                else {
+                    locCRT = integerOperand;
+                }
+            }
+            else if (currentLineOpcode == "WORD") {
                 locCRT += 3;
             } else if (currentLineOpcode == "RESW") {
                 int integerOperand;
@@ -87,8 +109,9 @@ vector<string> Address::setAddresses(vector<Line> configuredLines) {
         ss << std::hex << locCRT;
         string address = ss.str();
         addresses.push_back(address);
+        configuredLines[i].setAddress(address);
     }
 
     addresses.push_back("1");
-    return addresses;
+    return configuredLines;
 };

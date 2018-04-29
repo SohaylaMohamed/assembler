@@ -8,7 +8,7 @@
 
 using namespace std;
 
-void writeFile::write(vector<string> addresses,vector<Line> outlines){
+void writeFile::write(vector<Line> outlines){
      outFile.open("output.txt");
      if(outFile.is_open()){
         outFile << "Line no."<<"        ";
@@ -27,8 +27,8 @@ void writeFile::write(vector<string> addresses,vector<Line> outlines){
         ss << i;
         spaces=addSpaces(ss.str(),16);
         outFile<<spaces;
-        outFile<<addresses[i]<<"";
-        spaces=addSpaces(addresses[i],16);
+        outFile<<outlines[i].getAddress()<<"";
+        spaces=addSpaces(outlines[i].getAddress(),16);
         outFile<<spaces;
         outFile<<outlines[i].getLabel()<<"";
         spaces=addSpaces(outlines[i].getLabel(),13);
@@ -40,6 +40,9 @@ void writeFile::write(vector<string> addresses,vector<Line> outlines){
         spaces=addSpaces(outlines[i].getOperand(),24);
         outFile<<spaces;
         outFile<<outlines[i].getComment()<<"\n";
+        if (!outlines[i].getError().empty()){
+           outFile << outlines[i].getError()<<"\n";
+        }
         }
 
     }
