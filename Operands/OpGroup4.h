@@ -11,6 +11,8 @@
 class OpGroup4 : public OpGroups{
 public:
     OpGroup4();
+    bool checkOperand(std::string currentOperand) override ;
+
 
 };
 

@@ -9,14 +9,11 @@ using namespace std ;
 OpGroup10::OpGroup10() {
     size = 0 ;
 }
-inline bool checkOperand(string currentOperand){
+bool OpGroup10::checkOperand(string currentOperand){
 
-    string s = "(^$)|(^*$)|(^[A-Za-z]+$)|(^[0-9]+$)";
+    string s = "^\\*|([A-Za-z0-9\\$]{1,8})$";
 
     regex m (s);
-    if (regex_match(currentOperand , m)){
-        return true ;
-    }
-    return false;
+    return regex_match(currentOperand , m) ;
 
 }
