@@ -17,7 +17,7 @@ vector<Line> LinesConfiguration::configureLines(vector<vector<string>> lines) {
     for (int j = 0; j < configuredLines.size(); ++j) {
         for (int k =j+1 ; k < configuredLines.size(); ++k) {
             if (configuredLines[j].getLabel() == configuredLines[k].getLabel() && (configuredLines[j].getLabel() != "")){
-                configuredLines[k].setLabel("INVALID");
+                configuredLines[k].setError("****Error:Sympol\'" + configuredLines[k].getLabel() + "\'already defined");
             }
         }
     }
@@ -45,13 +45,15 @@ void LinesConfiguration::checkLine(vector<string> line) {
             if (line[0].find_first_of('.') != -1) {
                 tempLine.setComment(line[0]);
             } else {
-                tempLine.setOpCode(line[0]);
+                    tempLine.setOpCode(line[0]);
             }
         } else if (line.size()  == 2) {
             if (!operations.checkOperation(line[0])) {
                 tempLine.setLabel(line[0]);
-                if (!operations.checkOperation(line[1]))
-                    tempLine.setOpCode("INVALID");
+                if (!operations.checkOperation(line[1])) {
+                    tempLine.setOpCode(line[1]);
+                    tempLine.setError("***** unrecognized operation code");
+                }
                 else
                     tempLine.setOpCode(line[1]);
             } else {
@@ -59,13 +61,16 @@ void LinesConfiguration::checkLine(vector<string> line) {
                 OpGroups *opGroups = operations.checkOperation(line[0]);
                 if ((*opGroups).checkOperand(line[1])) {
                     tempLine.setOperand(line[1]);
-                } else
-                    tempLine.setOperand("INVALID");
+                } else {
+                    tempLine.setOperand(line[1]);
+                    tempLine.setError("***** undefined operand");
+                }
             }
         } else if (line.size()  == 3) {
             tempLine.setLabel(line[0]);
             if (!operations.checkOperation(line[1])) {
-                tempLine.setOpCode("INVALID");
+                tempLine.setOpCode(line[1]);
+                tempLine.setError("***** unrecognized operation code");
                 tempLine.setOperand(line[2]);
 
             } else {
@@ -73,13 +78,21 @@ void LinesConfiguration::checkLine(vector<string> line) {
                 OpGroups *opGroups = operations.checkOperation(line[1]);
                 if ((*opGroups).checkOperand(line[2])) {
                     tempLine.setOperand(line[2]);
-                } else
-                    tempLine.setOperand("INVALID");
+                } else {
+                    tempLine.setOperand(line[2]);
+                    tempLine.setError("***** undefined operand");
+                }
+
             }
         }
 
         configuredLines.push_back(tempLine);
 
+
+}
+
+void LinesConfiguration::checkEQU(vector<string> line)
+{
 
 }
 

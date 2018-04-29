@@ -6,7 +6,7 @@
 using namespace std;
 class writeFile {
 public:
-    void write(vector<string> addresses,vector<Line> outlines);
+    void write(vector<Line> outlines);
 
 private:
     ofstream outFile;

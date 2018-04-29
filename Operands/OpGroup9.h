@@ -11,6 +11,8 @@
 class OpGroup9 : public OpGroups {
 public:
     OpGroup9();
+    bool checkOperand(std::string currentOperand) override ;
+
 // h byte hexa and characters
 
 };

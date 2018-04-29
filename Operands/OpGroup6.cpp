@@ -9,7 +9,7 @@ using namespace std ;
    size = 1 ;
 }
 
-inline bool checkOperand(string currentOperand){
+bool OpGroup6::checkOperand(std::string currentOperand) {
 
     string s = "^$";
 

@@ -16,7 +16,7 @@ using namespace std;
 class Address {
 public:
     Address();
-    vector<string> setAddresses(vector<Line> configuredLines);
+    vector<Line> setAddresses(vector<Line> configuredLines);
 
 private:
     vector<string> addresses;

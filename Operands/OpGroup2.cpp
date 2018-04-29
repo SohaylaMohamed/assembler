@@ -9,9 +9,9 @@ OpGroup2::OpGroup2() {
 
    this -> size = 2 ;
 }
-inline bool checkOperand(string currentOperand){
+bool OpGroup2::checkOperand(std::string currentOperand) {
 
-    string s = "^([AXSLFB]|[axslfb])\\,([AXSLFB]|[axslfb])$";
+    string s = "^([AXSLFBaxslfb])\\,([AXSLFBaxslfb])$";
 
     regex m (s);
     if (regex_match(currentOperand , m)){

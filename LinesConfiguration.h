@@ -15,6 +15,7 @@ class LinesConfiguration {
 public:
 
     vector<Line> configureLines(vector<vector<string>> lines);
+    void checkEQU(vector<string> line);
 
     void checkLine(vector<string> line);
 

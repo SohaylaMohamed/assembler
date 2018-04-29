@@ -6,6 +6,7 @@
 #include <string>
 #include <regex>
 
+
 #ifndef ASSEMBLERPASS1_OPGROUPS_H
 #define ASSEMBLERPASS1_OPGROUPS_H
 
@@ -16,7 +17,7 @@ protected:
 public:
         int getSize();
 
-        bool checkOperand(std::string currentOperand);
+    virtual bool checkOperand(std::string currentOperand) = 0;
 };
 
 

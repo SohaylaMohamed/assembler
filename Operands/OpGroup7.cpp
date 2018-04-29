@@ -10,14 +10,11 @@ OpGroup7::OpGroup7() {
 
     size = 0 ;
 }
-inline bool checkOperand(string currentOperand){
+bool OpGroup7::checkOperand(std::string currentOperand) {
 
-    string s = "^(\\d|[a-zA-Z]){1,5}$";
+    string s = "^([a-fA-F0-9]){1,4}$";
 
     regex m (s);
-    if (regex_match(currentOperand , m)){
-        return true ;
-    }
-    return false;
+    return regex_match(currentOperand , m);
 
 }

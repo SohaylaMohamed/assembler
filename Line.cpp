@@ -54,3 +54,11 @@ const string &Line::getComment() const {
 void Line::setComment(const string &comment) {
     Line::comment = comment;
 }
+
+const string &Line::getError() const {
+    return error;
+}
+
+void Line::setError(const string &error) {
+    Line::error = error;
+}
