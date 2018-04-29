@@ -5,13 +5,14 @@
 #include "LinesConfiguration.h"
 #include "Operations.h"
 #include "Address.h"
+#include "writeFile.h"
 
 using namespace std;
 
 
 int main() {
 
-    readFile fileLoader("C:\\Users\\LENOVO\\CLionProjects\\assembler\\test.txt");
+    readFile fileLoader("test.txt");
     fileLoader.read();
     vector<vector <string>> lines= fileLoader.getLines();
     for(int i=0;i<lines.size();i++){
@@ -22,8 +23,10 @@ int main() {
     }
     LinesConfiguration linesConfiguration ;
     vector<Line> outlines = linesConfiguration.configureLines(lines);
-   Address address;
+    Address address;
     vector<string> addresses =  address.setAddresses(outlines);
+    writeFile write ;
+    write.write(addresses,outlines);
     for (int k = 0; k < outlines.size(); ++k) {
         cout<<addresses[k]<<" ";
         cout<<outlines[k].getLabel()<<" ";
