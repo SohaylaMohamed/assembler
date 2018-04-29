@@ -9,9 +9,9 @@ OpGroup5::OpGroup5() {
 
     size = 2 ;
 }
-inline bool checkOperand(string currentOperand){
+bool OpGroup5::checkOperand(std::string currentOperand) {
 
-    string s = "^([AXSFTB]|[axstfb])//,[0-9]+$";
+    string s = "^([AXSFTBaxstfb])//,[0-9]{1,4}$";
 
     regex m (s);
     if (regex_match(currentOperand , m)){

@@ -15,12 +15,12 @@ int main() {
     readFile fileLoader("test.txt");
     fileLoader.read();
     vector<vector <string>> lines= fileLoader.getLines();
-    for(int i=0;i<lines.size();i++){
-        for(int j=0;j<lines.at(i).size();j++){
-            cout <<  lines.at(i).at(j)<<" ";
-        }
-        cout<<" "<<endl;
-    }
+//    for(int i=0;i<lines.size();i++){
+//        for(int j=0;j<lines.at(i).size();j++){
+//            cout <<  lines.at(i).at(j)<<" ";
+//        }
+//        cout<<" "<<endl;
+//    }
     LinesConfiguration linesConfiguration ;
     vector<Line> outlines = linesConfiguration.configureLines(lines);
     Address address;
@@ -28,7 +28,7 @@ int main() {
     writeFile write ;
     write.write(addresses,outlines);
     for (int k = 0; k < outlines.size(); ++k) {
-        cout<<addresses[k]<<" ";
+      cout<<addresses[k]<<" ";
         cout<<outlines[k].getLabel()<<" ";
         cout<<outlines[k].getOpCode()<<" ";
         cout<<outlines[k].getOperand()<<" ";

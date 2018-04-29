@@ -8,7 +8,6 @@
  OpGroups::getSize() {
         return OpGroups::size;
 }
-bool OpGroups::checkOperand(std::string currentOperand) {}
 
 
 

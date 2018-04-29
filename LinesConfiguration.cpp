@@ -45,6 +45,7 @@ void LinesConfiguration::checkLine(vector<string> line) {
             if (line[0].find_first_of('.') != -1) {
                 tempLine.setComment(line[0]);
             } else {
+                //TODO check operand
                 tempLine.setOpCode(line[0]);
             }
         } else if (line.size()  == 2) {

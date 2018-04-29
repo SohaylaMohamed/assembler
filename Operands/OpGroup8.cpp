@@ -9,9 +9,9 @@ using namespace std ;
 OpGroup8::OpGroup8() {
     size = 0 ;
 }
-inline bool checkOperand(string currentOperand){
+bool OpGroup8::checkOperand(std::string currentOperand) {
 
-    string s = "^[0-9]+$";
+    string s = "^[0-9]{1,4}$";
 
     regex m (s);
     if (regex_match(currentOperand , m)){

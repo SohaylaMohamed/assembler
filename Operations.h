@@ -12,7 +12,7 @@ using namespace std ;
 class Operations {
 
 protected:
-    map <string, OpGroups > operations;
+    map <string, OpGroups* > operations;
 
 public:
     void readOperations();

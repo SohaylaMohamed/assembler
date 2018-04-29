@@ -25,49 +25,58 @@ void Operations::readOperations() {
     myfile.open("operations.txt");
     if (myfile.is_open()) {
 
+        OpGroups *group1 = new OpGroup1;
+        OpGroups *group2 = new OpGroup2;
+        OpGroups *group3 = new OpGroup3;
+        OpGroups *group4 = new OpGroup4;
+        OpGroups *group5 = new OpGroup5;
+        OpGroups *group6 = new OpGroup6;
+        OpGroups *group7 = new OpGroup7;
+        OpGroups *group8 = new OpGroup8;
+        OpGroups *group9 = new OpGroup9;
+        OpGroups *group10 = new OpGroup10;
+
         while (getline(myfile, line)) {
             istringstream iss(line);
             std::vector<std::string> result;
             for (std::string s; iss >> s;)
                 result.push_back(s);
 
-            OpGroups *group;
             if (result.size() == 1) {
-                group = new OpGroup6();
+                operations[result.at(0)] = group6;
             } else {
                 string operand = result.at(1);
                 if (operand == "m") {
-                    group = new OpGroup1();
+                    operations[result.at(0)] = group1;
                 } else if (operand == "r1,r2") {
-                    group = new OpGroup2;
+                    operations[result.at(0)] = group2;
                 } else if (operand == "r1") {
-                    group = new OpGroup3();
+                    operations[result.at(0)] = group3;
                 } else if (operand == "n") {
-                    group = new OpGroup4();
+                    operations[result.at(0)] = group4;
                 } else if (operand == "r1,n") {
-                    group = new OpGroup5();
+                    operations[result.at(0)] = group5;
                 } else if (operand == "a") {
-                    group = new OpGroup7();
+                    operations[result.at(0)] = group7;
                 } else if (operand == "num") {
-                    group = new OpGroup8();
+                    operations[result.at(0)] = group8;
                 } else if (operand == "h") {
-                    group = new OpGroup9();
+                    operations[result.at(0)] = group9;
                 } else if (operand == "e") {
-                    group = new OpGroup10();
+                    operations[result.at(0)] = group10;
                 }
             }
-            operations[result.at(0)] = *group;
         }
 
     }
 }
     OpGroups *Operations::checkOperation(string key) {
-        std::map<string, OpGroups>::iterator it;
+        std::map<string, OpGroups*>::iterator it;
         it = operations.find(key);
         if (it == operations.end()) {
             operations.erase(key);
             return NULL;
         } else {
-            return &it->second;
+            return it->second;
         }
     }
