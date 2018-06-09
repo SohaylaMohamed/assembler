@@ -8,8 +8,7 @@ using namespace std ;
 OpGroup3::OpGroup3() {
     size = 2 ;
 
-}
-bool OpGroup3::checkOperand(std::string currentOperand) {
+}bool OpGroup3::checkOperand(std::string currentOperand, std::string operation) {
 
     string s = "^([AXSFLBaxslfb])$";
 

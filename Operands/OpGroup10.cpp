@@ -9,7 +9,8 @@ using namespace std ;
 OpGroup10::OpGroup10() {
     size = 0 ;
 }
-bool OpGroup10::checkOperand(string currentOperand){
+bool OpGroup10::checkOperand(std::string currentOperand, std::string operation) {
+
 
     string s = "^\\*|([A-Za-z0-9\\$]{1,8})$";
 

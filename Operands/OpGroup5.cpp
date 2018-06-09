@@ -9,7 +9,7 @@ OpGroup5::OpGroup5() {
 
     size = 2 ;
 }
-bool OpGroup5::checkOperand(std::string currentOperand) {
+bool OpGroup5::checkOperand(std::string currentOperand, std::string operation) {
 
     string s = "^([AXSFTBaxstfb])//,[0-9]{1,4}$";
 

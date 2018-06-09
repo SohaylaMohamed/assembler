@@ -8,11 +8,14 @@
 #include <iostream>
 #include "Line.h"
 #include <vector>
-
+#include "Operations.h"
 using namespace std;
 
 class LinesConfiguration {
+private:
+    Operations operations;
 public:
+
 
     vector<Line> configureLines(vector<vector<string>> lines);
     void checkEQU(vector<string> line);

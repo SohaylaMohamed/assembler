@@ -12,7 +12,7 @@ using namespace std;
 
 class SymTable {
 public:
-    void createSymTable(vector<Line> configuredLines);
+    vector<Line> createSymTable(vector<Line> configuredLines);
 
     map <string, string> symTable;
 

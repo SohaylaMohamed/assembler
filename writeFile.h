@@ -6,7 +6,7 @@
 using namespace std;
 class writeFile {
 public:
-    void write(vector<Line> outlines);
+    void write(vector<Line> outlines, map <string, string> symTable);
 
 private:
     ofstream outFile;

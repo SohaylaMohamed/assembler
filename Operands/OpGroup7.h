@@ -12,7 +12,8 @@ class OpGroup7 : public OpGroups {
     // start operand
 public:
     OpGroup7();
-    bool checkOperand(std::string currentOperand) override ;
+   bool checkOperand(std::string currentOperand ,  std::string operation) override ;
+
 
 
 };
