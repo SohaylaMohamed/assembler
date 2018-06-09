@@ -9,4 +9,4 @@ add_executable(assemblerPass1 Operands/OpGroups.cpp Operands/OpGroups.h Line.cpp
         Operands/OpGroup5.cpp Operands/OpGroup5.h Operands/OpGroup6.cpp Operands/OpGroup6.h main.cpp Operands/OpGroup7.cpp Operands/OpGroup7.h
         Operands/OpGroup8.cpp Operands/OpGroup8.h Operands/OpGroup9.cpp Operands/OpGroup9.h Operands/OpGroup10.h
         Operands/OpGroup10.cpp Address.cpp Address.h writeFile.cpp writeFile.h Littab.cpp Littab.h SymTable.cpp SymTable.h Operands/OpGroup11.cpp
-        Operands/OpGroup11.h)
+        Operands/OpGroup11.h Registers.cpp Registers.h)
