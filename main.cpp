@@ -16,7 +16,12 @@ int main() {
     readFile fileLoader("test.txt");
     fileLoader.read();
     vector<vector <string>> lines= fileLoader.getLines();
-
+//    for(int i=0;i<lines.size();i++){
+//        for(int j=0;j<lines.at(i).size();j++){
+//            cout <<  lines.at(i).at(j)<<" ";
+//        }
+//        cout<<" "<<endl;
+//    }
     LinesConfiguration linesConfiguration ;
     SymTable symTable ;
     vector<Line> outlines = linesConfiguration.configureLines(lines);
@@ -25,7 +30,7 @@ int main() {
     outlines = symTable.createSymTable(outlines);
     writeFile write ;
     write.write(outlines,symTable.symTable);
-
+//
 //    for (int k = 0; k < outlines.size(); ++k) {
 //        cout<<outlines[k].getAddress()<<" ";
 //        cout<<outlines[k].getLabel()<<" ";
