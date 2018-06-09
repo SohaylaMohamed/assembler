@@ -6,7 +6,8 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-using namespace std ;
+
+using namespace std;
 
 
 OpGroup2::OpGroup2() {
@@ -26,7 +27,7 @@ OpGroup2::OpGroup2() {
             int x = 0;
             geek >> x;
             operationsList[result[0]] = x;
-            obCode[result[0]] = result[2];
+            obcode[result[0]] = result[2];
 
 
         }
@@ -36,32 +37,45 @@ OpGroup2::OpGroup2() {
 }
 
 
-
-bool OpGroup2::checkOperand(std::string currentOperand , std::string operation) {
-    if(currentOperand.length() > 18) {
+bool OpGroup2::checkOperand(std::string currentOperand, std::string operation) {
+    if (currentOperand.length() > 18) {
         return false;
     }
 
     int check = operationsList[operation];
-    vector<string> array;
-    switch (check)  {
+    string string1;
+    switch (check) {
 
-        case 1:   array = {"^([AXSLFBaxslfb])\\,([AXSLFBaxslfb])$"};
+        case 1:
+            string1 = "^([AXSLFBaxslfb])\\,([AXSLFBaxslfb])$";
             break;
-        case 2:  array = {"^([AXSLFBaxslfb])$"};
+        case 2:
+            string1 = "^([AXSLFBaxslfb])$";
             break;
-        case 3:  array = {"^([AXSFTBaxstfb])//,[0-9]{1,4}$"};
+        case 3:
+            string1 = "^([AXSFTBaxstfb])//,[0-9]{1,4}$";
             break;
-        default: break;
+        case 4:
+            string1 = "[0-9]{1,4}$";
+        default:
+            break;
 
     }
-    int size = array.size();
-    for (int i = 0; i < size; ++i) {
-        regex m(array[i]);
+        regex m(string1);
         if (regex_match(currentOperand, m)) {
             return true;
-        }
+
     }
     return false;
 }
+
+std::string OpGroup2::getOperationObCode(std::string operation) {
+    stringstream ss;
+    ss << hex << operation;
+    unsigned n;
+    ss >> n;
+    bitset<8> bit(n);
+    return bit.to_string();
+}
+
 

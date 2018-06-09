@@ -25,8 +25,8 @@ OpGroup1::OpGroup1() {
             stringstream geek(result[1]);
             int x = 0;
             geek >> x;
-            OpGroup1::opertionsList[result[0]] = x;
-            OpGroup1::obcode[result[0]] = result[2];
+            operationsList[result[0]] = x;
+            obcode[result[0]] = result[2];
 
 
         }
@@ -42,7 +42,7 @@ bool OpGroup1::checkOperand(std::string currentOperand , std::string operation) 
          return false;
      }
 
-        int check = OpGroup1::opertionsList[operation];
+        int check = operationsList[operation];
         vector<string> array;
         switch (check)  {
 
@@ -69,7 +69,7 @@ bool OpGroup1::checkOperand(std::string currentOperand , std::string operation) 
 
         }
         int size = array.size();
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i < size; i++) {
         regex m(array[i]);
         if (regex_match(currentOperand, m)) {
             return true;

@@ -17,9 +17,6 @@ class OpGroup1 : public OpGroups
 {
 public:
     OpGroup1();
-     map < string, int > opertionsList;
-    map < string, string > obcode;
-
     bool checkOperand(std::string currentOperand ,  std::string operation) override ;
     std::string getOperationObCode(std::string operation) override;
 
