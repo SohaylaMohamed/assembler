@@ -10,7 +10,8 @@ OpGroup7::OpGroup7() {
 
     size = 0 ;
 }
-bool OpGroup7::checkOperand(std::string currentOperand) {
+std::string OpGroup7::getOperationObCode(std::string operation) {}
+bool OpGroup7::checkOperand(std::string currentOperand, std::string operation) {
 
     string s = "^([a-fA-F0-9]){1,4}$";
 

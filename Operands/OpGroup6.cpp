@@ -8,8 +8,10 @@ using namespace std ;
  OpGroup6::OpGroup6() {
    size = 1 ;
 }
+std::string OpGroup6::getOperationObCode(std::string operation) {}
 
-bool OpGroup6::checkOperand(std::string currentOperand) {
+bool OpGroup6::checkOperand(std::string currentOperand, std::string operation) {
+
 
     string s = "^$";
 

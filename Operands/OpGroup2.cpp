@@ -9,7 +9,8 @@ OpGroup2::OpGroup2() {
 
    this -> size = 2 ;
 }
-bool OpGroup2::checkOperand(std::string currentOperand) {
+std::string OpGroup2::getOperationObCode(std::string operation) {}
+bool OpGroup2::checkOperand(std::string currentOperand, std::string operation) {
 
     string s = "^([AXSLFBaxslfb])\\,([AXSLFBaxslfb])$";
 

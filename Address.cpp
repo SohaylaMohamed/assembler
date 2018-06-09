@@ -47,7 +47,8 @@ vector<Line> Address::setAddresses(vector<Line> configuredLines) {
         if (currentLine.getComment().find_first_of(".") == -1) {
             string currentLineOpcode = currentLine.getOpCode();
             OpGroups *opGroups = operations.checkOperation(currentLineOpcode);
-            if (opGroups->getSize()!=0) {
+
+            if (opGroups != NULL && opGroups->getSize()!=0) {
                 //todo ask if getSize() returns the instruction length
                 locCRT += opGroups->getSize();
             }
@@ -87,8 +88,9 @@ vector<Line> Address::setAddresses(vector<Line> configuredLines) {
                  {
                      if (currentLineOperand[1] == '\'' && currentLineOperand[currentLineOperand.size()-1] == '\'')
                         locCRT += 1;
-                     else
-                         currentLine.setOperand("INVALID");
+                     else {
+                         configuredLines[i].setError("*****Invalid operand");
+                     }
                  }
                  else if (currentLineOperand[0]=='C')
                  {
@@ -97,10 +99,12 @@ vector<Line> Address::setAddresses(vector<Line> configuredLines) {
                          locCRT += (currentLineOperand.size()-1)-2;
                      }
                      else
-                         currentLine.setOperand("INVALID");
+                         configuredLines[i].setError("*****Invalid operand");
                  }
             } else
-                currentLine.setOpCode("INVALID");
+            {
+                std::istringstream(configuredLines[i].getAddress()) >> std::hex >> locCRT;
+            }
         }
 
         i++;

@@ -11,7 +11,11 @@ using namespace std ;
 OpGroup9::OpGroup9() {
     size = 0 ;
 }
-bool OpGroup9::checkOperand(std::string currentOperand) {
+std::string OpGroup9::getOperationObCode(std::string operation) {
+
+}
+bool OpGroup9::checkOperand(std::string currentOperand, std::string operation) {
+
 
     string s = "(^[xX]\\'([a-fA-F0-9]){1,14}\\'$)|(^[cC]\\'([a-zA-Z0-9\\s]){1,15}\\'$)";
 

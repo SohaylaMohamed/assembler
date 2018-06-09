@@ -12,7 +12,9 @@ class OpGroup3 : public OpGroups {
 
 public:
 OpGroup3();
-    bool checkOperand(std::string currentOperand) override ;
+
+    bool checkOperand(std::string currentOperand ,  std::string operation) override ;
+    std::string getOperationObCode(std::string operation) override;
 
 
 

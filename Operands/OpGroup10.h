@@ -11,7 +11,9 @@
 class OpGroup10 : public OpGroups {
 public:
     OpGroup10();
-    bool checkOperand(std::string currentOperand) override ;
+    bool checkOperand(std::string currentOperand ,  std::string operation) override ;
+    std::string getOperationObCode(std::string operation) override;
+
 
     // end operator
 

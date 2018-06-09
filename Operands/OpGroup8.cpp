@@ -9,7 +9,9 @@ using namespace std ;
 OpGroup8::OpGroup8() {
     size = 0 ;
 }
-bool OpGroup8::checkOperand(std::string currentOperand) {
+std::string OpGroup8::getOperationObCode(std::string operation) {}
+bool OpGroup8::checkOperand(std::string currentOperand, std::string operation) {
+
 
     string s = "^[0-9]{1,4}$";
 
