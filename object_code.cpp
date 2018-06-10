@@ -187,31 +187,6 @@ std::string object_code::getObject_3(Line line) {
 
 }
 
-string object_code::toHex(string binary, int bits) {
-    string bin(binary);
-    int result = 0;
-
-    for (size_t count = 0; count < bin.length(); ++count) {
-        result *= 2;
-        result += bin[count] == '1' ? 1 : 0;
-    }
-
-    stringstream ss;
-    ss << hex << setw(bits) << setfill('0') << result;
-
-    string hexVal(ss.str());
-    return hexVal;
-}
-
-bitset<12> object_code::toBinary(string hexNum) {
-    stringstream ss;
-    ss << hex << hexNum;
-    unsigned n;
-    ss >> n;
-    bitset<12> b(n);
-    return b;
-}
-
 std::vector<string> object_code::getObject_dir(Line line) {
     vector<string> result;
     string operand = line.getOperand();
@@ -255,10 +230,35 @@ std::vector<string> object_code::getObject_dir(Line line) {
     return result;
 }
 
+string object_code::toHex(string binary, int bits) {
+    string bin(binary);
+    int result = 0;
+
+    for (size_t count = 0; count < bin.length(); ++count) {
+        result *= 2;
+        result += bin[count] == '1' ? 1 : 0;
+    }
+
+    stringstream ss;
+    ss << hex << setw(bits) << setfill('0') << result;
+
+    string hexVal(ss.str());
+    return hexVal;
+}
+
+bitset<12> object_code::toBinary(string hexNum) {
+    stringstream ss;
+    ss << hex << hexNum;
+    unsigned n;
+    ss >> n;
+    bitset<12> b(n);
+    return b;
+}
+
+
 bool object_code::pc_check_bounds(int TA) {
     return TA <= PC_U_BOUND && TA >= PC_L_BOUND;
 }
-
 
 int object_code::get_Base() {
     if (base_Exist()) {
