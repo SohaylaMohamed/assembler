@@ -18,6 +18,7 @@ private:
     Operations operations;
     vector<Line> configuredLines;
     map<string , Literal> litTab;
+    string base;
 public:
     vector<Line> configureLines(vector<vector<string>> lines);
     void checkLine(vector<string> line);

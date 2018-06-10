@@ -4,12 +4,12 @@
 #include <iostream>
 #include "Line.h"
 #include "Operations.h"
-#include <ctype.h>
 
 using namespace std;
 #include "LinesConfiguration.h"
 
 vector<Line> LinesConfiguration::configureLines(vector<vector<string>> lines) {
+    base = "";
     cout<<"Reached configureLines";
     operations.readOperations();
 
@@ -51,6 +51,9 @@ void LinesConfiguration::checkLine(vector<string> line) {
             tempLine.setComment(line[0]);
         } else {
             tempLine.setOpCode(line[0]);
+            if (tempLine.getOpCode() == "NOBASE") {
+                base = "";
+            }
             tempLine.setFormatNo(1);
         }
     } else if (line.size() == 2) {
@@ -70,6 +73,9 @@ void LinesConfiguration::checkLine(vector<string> line) {
             OpGroups *opGroups = operations.checkOperation(line[0]);
             if ((*opGroups).checkOperand(line[1], line[0])) {
                 tempLine.setOperand(line[1]);
+                if (tempLine.getOpCode() == "BASE") {
+                    base = tempLine.getOperand();
+                }
                 if((*opGroups).getSize()==2)
                 {
                     tempLine.setFormatNo(2);

@@ -157,16 +157,16 @@ std::string object_code::getObject_3(Line line) {
                 int TA;
                 if (regex_match(operand, reg)) {
                     if(!symTable.findElement(operand)) { //check if no operand with name
-                        TA = getTargetAddress(operand, line.getAddress());
+                        TA = getTargetAddress(operand, line.getAddress(), line.getBase());
 
                     } else {
                         string address = symTable.getElementAddress(operand);
-                        TA = getTargetAddress(address, line.getAddress());
+                        TA = getTargetAddress(address, line.getAddress(), line.getBase());
                     }
 
                 } else {
                     string address = symTable.getElementAddress(operand);
-                    TA = getTargetAddress(address, line.getAddress());
+                    TA = getTargetAddress(address, line.getAddress(), line.getBase());
 
                 }
                 disp = bitset<12>(TA);
@@ -185,7 +185,7 @@ std::string object_code::getObject_3(Line line) {
                     TA = toInt(operand);
                 } else { // invalid or wrong operand
                     string address = symTable.getElementAddress(operand);
-                    TA = getTargetAddress(address, line.getAddress());
+                    TA = getTargetAddress(address, line.getAddress(), line.getBase());
                 }
                 disp = bitset<12>(TA);
 
@@ -195,7 +195,7 @@ std::string object_code::getObject_3(Line line) {
             case '=': {
                 string literal = operand.substr(3, operand.size() - 4);
                 string address; //TODO : get address from literal table
-                int TA = getTargetAddress(address, line.getAddress());
+                int TA = getTargetAddress(address, line.getAddress(), line.getBase());
                 disp = bitset<12>(TA);
             }
                 break;
@@ -210,11 +210,11 @@ std::string object_code::getObject_3(Line line) {
                     flags.flip(3);
                     operand = operand.substr(0, operand.size() - 2);
                     string address = symTable.getElementAddress(operand);
-                    TA = getTargetAddress(address, line.getAddress());
+                    TA = getTargetAddress(address, line.getAddress(), line.getBase());
                 } else {
                     //relative pc first
                     string address = symTable.getElementAddress(operand);
-                    TA = getTargetAddress(address, line.getAddress());
+                    TA = getTargetAddress(address, line.getAddress(), line.getBase());
 
                 }
                 disp = bitset<12>(TA);
@@ -281,7 +281,7 @@ std::string object_code::getObject_lit(Line line) {
         int number = toInt(operation);
         std::ostringstream ss;
         ss << std::hex << number;
-        string num = ss.str();
+        string num = ss.str().substr(0, 4);
         return num;
     } else if (regex_match(operation, regex2)) {
         operation = operation.substr(3, operation.size() - 4);
@@ -334,16 +334,6 @@ bool object_code::pc_check_bounds(int TA) {
     return TA <= PC_U_BOUND && TA >= PC_L_BOUND;
 }
 
-int object_code::get_Base() {
-    if (base_Exist()) {
-
-    }
-    //check BASE opeation
-    //get label BASE
-    //check LDB & #label
-    //check NOBASE occured before
-    return -1;
-}
 
 bool object_code::b_check_bounds(int ta) {
     return ta > 0 && ta < B_BOUND;
@@ -359,7 +349,7 @@ string object_code::NumberToString(int Number) {
     return ss.str();
 }
 
-int object_code::getTargetAddress(string address, string locationCounter) {
+int object_code::getTargetAddress(string address, string locationCounter, string base) {
     int elementAddress = 0;
     std::istringstream(address) >> std::hex >> elementAddress;
     int lc = 0;
@@ -368,20 +358,20 @@ int object_code::getTargetAddress(string address, string locationCounter) {
     int TA = lc - elementAddress;
     bool pc_relative = pc_check_bounds(TA);
     if (~pc_relative) {
-
-        int b = get_Base();
-        if (b == -1) {
-            //error
+        if (base.length() == 0) {
+            return 0;
         } else {
+            int b = 0;
+            std::istringstream(base) >> std::hex >> b;
+
             TA = b - elementAddress;
             bool b_relative = b_check_bounds(TA);
             if (!b_relative) {
-                //error
+                return 0;
             } else {
                 flags.flip(2);
             }
         }
-        //base
     } else {
         flags.flip(1);
     }

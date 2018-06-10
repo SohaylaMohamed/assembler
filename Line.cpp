@@ -78,3 +78,7 @@ bool Line::isAbsolute() const {
 void Line::setAbsolute(bool absolute) {
     Line::absolute = absolute;
 }
+
+string Line::getBase() {
+    return Line::base;
+}
