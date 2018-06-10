@@ -195,11 +195,12 @@ std::string object_code::getObject_3(Line line) {
             }
 
                 break;
-            case '=':
+            case '=': {
                 string literal = operand.substr(3, operand.size() - 4);
                 string address; //TODO : get address from literal table
                 int TA = getTargetAddress(address, line.getAddress());
                 disp = bitset<12>(TA);
+            }
                 break;
             default: {
                 int TA;
