@@ -14,7 +14,7 @@ class SymTable {
 public:
     vector<Line> createSymTable(vector<Line> configuredLines);
 
-    map <string, string> symTable;
+    std::map <string, string> symTable;
 
     bool findElement(string name);
 

@@ -27,7 +27,7 @@ vector<Line> Address::setAddresses(vector<Line> configuredLines) {
             /********************CONVERTING HEX TO DECIMAL *******/
             std::istringstream(firstLineOperand) >> std::hex >> locCRT;
         }
-        //Todo make a converting function instead of repeated code
+
         /********************CONVERTING DECIMAL TO HEX *******/
         std::ostringstream ss;
         ss << std::hex << locCRT;
@@ -35,6 +35,27 @@ vector<Line> Address::setAddresses(vector<Line> configuredLines) {
         addresses.push_back(address);
         configuredLines[0].setAddress(address);
     }
+    else
+    {
+        while (configuredLines[i].getOpCode() != "START")
+        {
+            i++;
+            if (configuredLines[i].getOpCode() == "START") {
+                if (!configuredLines[i].getOperand().empty()) {
+                    /********************CONVERTING HEX TO DECIMAL *******/
+                    std::istringstream(configuredLines[i].getOperand()) >> std::hex >> locCRT;
+                }
+                /********************CONVERTING DECIMAL TO HEX *******/
+                std::ostringstream ss;
+                ss << std::hex << locCRT;
+                string address = ss.str();
+                addresses.push_back(address);
+                configuredLines[i].setAddress(address);
+                break;
+            }
+        }
+    }
+
     /********************CONVERTING DECIMAL TO HEX *******/
     std::ostringstream ss;
     ss << std::hex << locCRT;
@@ -42,7 +63,8 @@ vector<Line> Address::setAddresses(vector<Line> configuredLines) {
     addresses.push_back(address);
     configuredLines[i].setAddress(address);
     //Todo if current line is a comment put empty address
-    while (configuredLines[i].getOpCode() != "END") {
+
+    for (int i=0;i<configuredLines.size()-1;i++) {
         Line currentLine = configuredLines[i];
         if (currentLine.getComment().find_first_of(".") == -1) {
             string currentLineOpcode = currentLine.getOpCode();
@@ -82,12 +104,18 @@ vector<Line> Address::setAddresses(vector<Line> configuredLines) {
                 if (!(istringstream(currentLine.getOperand()) >> integerOperand)) integerOperand = 0;
                 locCRT += integerOperand;
             } else if (currentLineOpcode == "BYTE") {
-                //Todo for  C'test string' , locCTR +=13 , X'05' ,locCRT +=1
                 string currentLineOperand = currentLine.getOperand();
                  if (currentLineOperand[0] == 'X')
                  {
                      if (currentLineOperand[1] == '\'' && currentLineOperand[currentLineOperand.size()-1] == '\'')
-                        locCRT += 1;
+                     {
+                         if (!(((currentLineOperand.size()-1)-2) %2))
+                         {
+                             locCRT += ((currentLineOperand.size()-1)-2) /2;
+                         }
+                         else
+                             configuredLines[i].setError("*****Invalid operand length");
+                     }
                      else {
                          configuredLines[i].setError("*****Invalid operand");
                      }
@@ -101,19 +129,51 @@ vector<Line> Address::setAddresses(vector<Line> configuredLines) {
                      else
                          configuredLines[i].setError("*****Invalid operand");
                  }
-            } else
+            }
+            /***Literals***/
+            else if (currentLineOpcode[0]=='=')
+            {
+                if (currentLineOpcode[1]=='X')
+                {
+                    if (currentLineOpcode[2] == '\'' && currentLineOpcode[currentLineOpcode.size()-1] == '\'')
+                    {
+                        if (!(((currentLineOpcode.size()-1)-3) %2))
+                        {
+                            locCRT += ((currentLineOpcode.size()-1)-3) /2;
+                        }
+                        else
+                            configuredLines[i].setError("*****Invalid operand length");
+                    }
+                    else {
+                        configuredLines[i].setError("*****Invalid operand");
+                    }
+                }
+                else if (currentLineOpcode[1]=='C')
+                {
+                    if (currentLineOpcode[2] == '\'' && currentLineOpcode[currentLineOpcode.size()-1] == '\'')
+                    {
+                        locCRT += (currentLineOpcode.size()-1)-3;
+                    }
+                    else
+                        configuredLines[i].setError("*****Invalid operand");
+                }
+                else if (currentLineOpcode[1]=='W')
+                {
+                    locCRT += 3;
+                }
+            }
+
+            else
             {
                 std::istringstream(configuredLines[i].getAddress()) >> std::hex >> locCRT;
             }
         }
-
-        i++;
         /********************CONVERTING DECIMAL TO HEX *******/
         std::ostringstream ss;
         ss << std::hex << locCRT;
         string address = ss.str();
         addresses.push_back(address);
-        configuredLines[i].setAddress(address);
+        configuredLines[i+1].setAddress(address);
     }
 
     addresses.push_back("1");
