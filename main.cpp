@@ -24,7 +24,7 @@ int main() {
     outlines =  address.setAddresses(outlines);
     outlines = symTable.createSymTable(outlines);
     Expressions expressions;
-    vector<Line> newLines = expressions.evaluateExpressions(outlines , symTable.symTable);
+    expressions.evaluateExpressions(outlines , symTable.symTable);
     writeFile write ;
     write.write(outlines,symTable.symTable);
     return 0;

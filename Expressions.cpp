@@ -9,34 +9,31 @@
 #include "Expressions.h"
 #include "Line.h"
 
-vector<Line> Expressions::evaluateExpressions(vector<Line> configuredLines, map<string, string> symTable) {
+void Expressions::evaluateExpressions(vector<Line> &configuredLines, map<string, string> &symTable) {
     for (int i = 0; i < configuredLines.size(); ++i) {
         string opearnd = configuredLines[i].getOperand();
-        if (isExpression(opearnd)) {
-            string configuredExpression = makeExpression(opearnd, symTable);
-            expressionToParse = configuredExpression.c_str();
-            int result = calculate();
-            stringstream ss;
-            ss << result;
-            //cout << configuredExpression << "=" << result << "\n";
-            configuredLines[i].setOperand(ss.str());
-
-//            if (configuredLines[i].getLabel()=="TEST")
-//            {
-//                symTable["TEST"]=ss.str();
-//                cout<<ss.str()<<"\n";
-//                cout<<"************>"<<symTable["TEST"];
-//
-//
-//
-//            }
+        if (opearnd=="*")
+        {
+            configuredLines[i].setOperand(configuredLines[i].getAddress());
+        }
+        else if (isExpression(opearnd)) {
+            bool noUndefinedLabels = true;
+            string configuredExpression = makeExpression(opearnd, symTable, &noUndefinedLabels);
+            if (!noUndefinedLabels){
+                configuredLines[i].setError("**** Undefined Label");
+            }
+            else {
+                expressionToParse = configuredExpression.c_str();
+                int result = calculate();
+                stringstream ss;
+                ss << result;
+                cout << configuredExpression << "=" << result << "\n";
+                configuredLines[i].setOperand(ss.str());
+            }
         }
     }
-
-
-
-    return configuredLines;
 }
+
 
 bool Expressions::isExpression(string operand) {
     if (operand.find_first_of('(') != -1 || operand.find_first_of('*') != -1 || operand.find_first_of('/') != -1 ||
@@ -46,7 +43,7 @@ bool Expressions::isExpression(string operand) {
     return false;
 }
 
-string Expressions::makeExpression(string operand, map<string, string> symTable) {
+string Expressions::makeExpression(string operand, map<string, string> symTable, bool *pBoolean) {
     int startingAddress = 0;
     for (int i = 0; i <operand.size(); ++i) {
         if (operand[i]>='A' && operand[i]<='Z'){
@@ -61,6 +58,9 @@ string Expressions::makeExpression(string operand, map<string, string> symTable)
                 string index = symTable[temp];
                 operand.replace(startingAddress, temp.length(), index);
                 i += index.size() - temp.size();
+            }
+            else{
+                *pBoolean = false;
             }
             //i--;
         }
