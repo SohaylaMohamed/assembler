@@ -10,10 +10,15 @@ using namespace std;
 #include "LinesConfiguration.h"
 
 vector<Line> LinesConfiguration::configureLines(vector<vector<string>> lines) {
+    cout<<"Reached configureLines";
     operations.readOperations();
+
     for (int i = 0; i < lines.size(); ++i) {
         checkLine(lines[i]);
+        cout<<"Line " << configuredLines[i].getOpCode()<<"is of format"<<configuredLines[i].getFormatNo()<<endl;
     }
+
+    cout<<"first loop succeeded";
     for (int j = 0; j < configuredLines.size(); ++j) {
         for (int k = j + 1; k < configuredLines.size(); ++k) {
             if (configuredLines[j].getLabel() == configuredLines[k].getLabel() &&
@@ -22,6 +27,7 @@ vector<Line> LinesConfiguration::configureLines(vector<vector<string>> lines) {
             }
         }
     }
+    cout<"configureLines succeeded";
     return configuredLines;
 }
 
@@ -45,6 +51,7 @@ void LinesConfiguration::checkLine(vector<string> line) {
             tempLine.setComment(line[0]);
         } else {
             tempLine.setOpCode(line[0]);
+            tempLine.setFormatNo(1);
         }
     } else if (line.size() == 2) {
         if (!operations.checkOperation(line[0])) {
@@ -54,15 +61,30 @@ void LinesConfiguration::checkLine(vector<string> line) {
                 tempLine.setError("***** unrecognized operation code");
             } else {
                 tempLine.setOpCode(line[1]);
+                tempLine.setFormatNo(1);
             }
         } else {
             tempLine.setOpCode(line[0]);
             if (line[0].find_first_of('+') != -1)
                 line[0] = line[0].substr(1, line[0].size() - 1);
             OpGroups *opGroups = operations.checkOperation(line[0]);
-
             if ((*opGroups).checkOperand(line[1], line[0])) {
                 tempLine.setOperand(line[1]);
+                if((*opGroups).getSize()==2)
+                {
+                    tempLine.setFormatNo(2);
+                } else
+                {
+                    if ( (tempLine.getOpCode())[0] =='+' )
+                    {
+                        tempLine.setFormatNo(4);
+                    }
+                    else
+                    {
+                        tempLine.setFormatNo(3);
+                    }
+
+                }
             } else {
                 tempLine.setOperand(line[1]);
                 tempLine.setError("***** Invalid operand");
@@ -90,6 +112,21 @@ void LinesConfiguration::checkLine(vector<string> line) {
             OpGroups *opGroups = operations.checkOperation(line[1]);
             if ((*opGroups).checkOperand(line[2], line[1])) {
                 tempLine.setOperand(line[2]);
+                if((*opGroups).getSize()==2)
+                {
+                    tempLine.setFormatNo(2);
+                } else
+                {
+                    if ( (tempLine.getOpCode())[0] =='+' )
+                    {
+                        tempLine.setFormatNo(4);
+                    }
+                    else
+                    {
+                        tempLine.setFormatNo(3);
+                    }
+
+                }
             } else {
                 tempLine.setOperand(line[2]);
                 tempLine.setError("***** Invalid operand");

@@ -11,6 +11,9 @@ readFile::readFile(string fileName) {
     readFile::fileName = fileName;
 }
 void readFile::read() {
+
+    lineVector.reserve(30);
+    allLines.reserve(30);
     //Todo Parameter type mismatch
     inFile.open(fileName);
     if (!inFile.is_open()) {
@@ -57,6 +60,8 @@ void readFile::read() {
         }
         allLines.push_back(lineVector);
     }
+    inFile.close();
+
 }
 
 bool readFile::comment() {

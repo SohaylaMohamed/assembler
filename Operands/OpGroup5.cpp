@@ -7,7 +7,7 @@
 using namespace std ;
 OpGroup5::OpGroup5() {
 
-    size = 2 ;
+    size = 0;
     operationsList["WORD"] = 1 ;
     operationsList["BYTE"] = 2 ;
 }
