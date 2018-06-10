@@ -25,7 +25,8 @@ public:
    std::string getObject_1(Line line);
    std::string getObject_2(Line line);
    std::string getObject_3(Line line);
-   std::string getObject_dir(Line line);
+
+    std::vector<string> getObject_dir(Line line);
 
 
     bool pc_check_bounds(int TA);
@@ -36,6 +37,10 @@ public:
     bool b_check_bounds(int ta);
 
     bool base_Exist();
+
+    string NumberToString(int Number);
+
+    int getTargetAddress(string address, string locationCounter);
 };
 
 
