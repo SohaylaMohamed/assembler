@@ -14,14 +14,18 @@ public:
     void read();
     vector<vector <string>> getLines();
 
+
 private:
     ifstream inFile;
     std::vector<std::string> lineVector;
+
     vector<vector<string> > allLines;
     string fileName = "" ,line;
     bool comment();
     bool Blank();
-    bool cString();
+    bool Stringwithoutequal();
+    bool Stringwithequal();
+
 
 };
 #endif //ASSEMBLER_READFILE_H

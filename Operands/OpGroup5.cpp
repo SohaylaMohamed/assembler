@@ -7,7 +7,7 @@
 using namespace std ;
 OpGroup5::OpGroup5() {
 
-    size = 2 ;
+    size = 0;
     operationsList["WORD"] = 1 ;
     operationsList["BYTE"] = 2 ;
 }
@@ -21,7 +21,7 @@ bool OpGroup5::checkOperand(std::string currentOperand, std::string operation) {
             array = {"^[0-9]{1,4}$" , "^-[0-9]{1,4}$" , "^([0-9]{1,4},)+[0-9]{1,4}$"};
             break;
         case 2:
-            array = {"^(\\=?)[Cc]'[0-9a-zA-Z]{0,15},'$" , "^(\\=?)[xX]'[0-9a-fA-F]{0,14}'$" , };
+            array = {"^[Cc]'[0-9a-zA-Z\\s]{0,15},'$", "^[xX]'[0-9a-fA-F]{0,14}'$"};
             break;
     }
     int size = array.size();

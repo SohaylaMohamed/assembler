@@ -36,12 +36,25 @@ public:
 
 private:
     int lineNo;
+    int formatNo=0;
+public:
+    int getFormatNo() const;
+
+    void setFormatNo(int formatNo);
+
+private:
     string address;
     string label;
     string opCode;
     string operand;
     string comment;
     string error;
+    bool absolute=false;
+public:
+    bool isAbsolute() const;
+
+    void setAbsolute(bool absolute);
+
 public:
     const string &getError() const;
 

@@ -9,23 +9,19 @@
 #include "Line.h"
 #include <vector>
 #include "Operations.h"
+#include "Literal.h"
+
 using namespace std;
 
 class LinesConfiguration {
 private:
     Operations operations;
+    vector<Line> configuredLines;
+    map<string , Literal> litTab;
 public:
-
-
     vector<Line> configureLines(vector<vector<string>> lines);
-    void checkEQU(vector<string> line);
-
     void checkLine(vector<string> line);
 
-    bool checkOp(string string1);
-
-private:
-    vector<Line> configuredLines;
 };
 
 

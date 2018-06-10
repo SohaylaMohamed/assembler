@@ -7,5 +7,5 @@ add_executable(assemblerPass1 Operands/OpGroups.cpp Operands/OpGroups.h Line.cpp
         LinesConfiguration.h readFile.cpp readFile.h operations.cpp operations.h Operands/OpGroup1.cpp Operands/OpGroup1.h
         Operands/OpGroup2.cpp Operands/OpGroup2.h Operands/OpGroup3.cpp Operands/OpGroup3.h Operands/OpGroup4.cpp Operands/OpGroup4.h
         Operands/OpGroup5.cpp Operands/OpGroup5.h main.cpp
-        Address.cpp Address.h writeFile.cpp writeFile.h Littab.cpp Littab.h SymTable.cpp SymTable.h
-        object_code.cpp object_code.h)
+        Address.cpp Address.h writeFile.cpp writeFile.h SymTable.cpp SymTable.h Literal.cpp Literal.h Expressions.cpp Expressions.h
+        pass2.cpp pass2.h)

@@ -4,8 +4,7 @@
 #include "OpGroup1.h"
 
 #include <fstream>
-#include <iostream>
-#include <sstream>
+
 using namespace std ;
 
 
@@ -38,37 +37,38 @@ OpGroup1::OpGroup1() {
 
 
 bool OpGroup1::checkOperand(std::string currentOperand , std::string operation) {
-     if(currentOperand.length() > 18) {
-         return false;
-     }
+    if (currentOperand.length() > 18) {
+        return false;
+    }
 
-        int check = operationsList[operation];
-        vector<string> array;
-        switch (check)  {
+    int check = operationsList[operation];
+    vector<string> array;
+    switch (check) {
 
-            case 1:   array = {"^(#?|@?)[0-9]{1,4}$", R"(^(\=?)[xX]\'([a-fA-F0-9])+\'$)", "^(\\=?)|(#?|@?)\\*$",
-                               R"(^(\=?)[cC]\'([a-zA-Z0-9])+\'$)", R"(^(\=?)[Ww]\'([0-9])+\'$)", "^(#?|@?)([a-zA-Z0-9]|\\$){1,8}$",
-                               R"(^([a-zA-Z0-9]|\$){1,8}\,[Xx]$)","^\\*\\,[Xx]$", "([a-zA-Z]+[0-9]*)+\\-[a-zA-Z0-9]+",
-                               "([a-zA-Z]+[0-9]*)+\\+[0-9]+",
-                               "[0-9]+\\+([a-zA-Z]+[0-9]*)+",
-                               R"([0-9]+[\+\-\*\/][0-9]+)"};
-                break;
-            case 2:  array = {"^(#?|@?)\\*$", "^(#?|@?)([a-zA-Z0-9]){1,8}$", "^(#?|@?)[0-9]{1,4}$",
-                              R"(^([a-zA-Z0-9]|\$){1,8}\,[Xx]$)","^\\*\\,[Xx]$",  "([a-zA-Z]+[0-9]*)+\\-[a-zA-Z0-9]+",
-                              "([a-zA-Z]+[0-9]*)+\\+[0-9]+",
-                              "[0-9]+\\+([a-zA-Z]+[0-9]*)+",
-                              R"([0-9]+[\+\-\*\/][0-9]+)"};
-                break;
-            case 3:  array = {"^(#?|@?)\\*$", "^(#?|@?)([a-zA-Z0-9]){1,8}$", "^(#?|@?)[0-9]{1,4}$",
-                              R"(^([a-zA-Z0-9]|\$){1,8}\,[Xx]$)","^\\*\\,[Xx]$", "^$", "([a-zA-Z]+[0-9]*)+\\-[a-zA-Z0-9]+",
-                              "([a-zA-Z]+[0-9]*)+\\+[0-9]+",
-                              "[0-9]+\\+([a-zA-Z]+[0-9]*)+",
-                              R"([0-9]+[\+\-\*\/][0-9]+)"};
-                break;
-            default: break;
+        case 1:
+            array = {"^(#?|@?)[0-9]{1,4}$", R"(^(\=?)[xX]\'([a-fA-F0-9])+\'$)", "^(\\=?)|(#?|@?)\\*$",
+                     R"(^(\=?)[cC]\'([a-zA-Z0-9\s])+\'$)", R"(^(\=?)[Ww]\'([0-9])+\'$)",
+                     "^(#?|@?)([a-zA-Z0-9]|\\$){1,8}$",
+                     R"(^([a-zA-Z0-9]|\$){1,8}\,[Xx]$)", "^\\*\\,[Xx]$", "([a-zA-Z]+[0-9]*)+\\-[a-zA-Z0-9]+",
+                     "([a-zA-Z]+[0-9]*)+\\+[0-9]+",
+                     "[0-9]+\\+([a-zA-Z]+[0-9]*)+",
+                     R"([0-9]+[\+\-\*\/][0-9]+)"};
+            break;
+        case 2:
+            array = {"^(#?|@?)\\*$", "^(#?|@?)([a-zA-Z0-9]){1,8}$", "^(#?|@?)[0-9]{1,4}$",
+                     R"(^([a-zA-Z0-9]|\$){1,8}\,[Xx]$)", "^\\*\\,[Xx]$",
+                     R"(^([0-9a-zA-Z]+([\+\-]|[\*\/]))+[0-9a-zA-Z]+$)"};
+            break;
+        case 3:
+            array = {"^(#?|@?)\\*$", "^(#?|@?)([a-zA-Z0-9]){1,8}$", "^(#?|@?)[0-9]{1,4}$",
+                     R"(^([a-zA-Z0-9]|\$){1,8}\,[Xx]$)", "^\\*\\,[Xx]$", "^$",
+                     R"(^([0-9a-zA-Z]+([\+\-]|[\*\/]))+[0-9a-zA-Z]+$)"};
+            break;
+        default:
+            break;
 
-        }
-        int size = array.size();
+    }
+    int size = array.size();
     for (int i = 0; i < size; i++) {
         regex m(array[i]);
         if (regex_match(currentOperand, m)) {
@@ -85,6 +85,7 @@ std::string OpGroup1::getOperationObCode(std::string operation) {
     bitset<8> b(n);
     return  b.to_string();
 }
+
 void OpGroup1::setSize(int s) {
     OpGroup1::size = s;
 }

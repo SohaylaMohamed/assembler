@@ -4,8 +4,6 @@
 
 #include <iomanip>
 #include "object_code.h"
-#include "Operations.h"
-#include "Registers.h"
 //TODO : CHECK IF PASS1 IS WITHOUT ERRORS BEFORE PASS2
 //TODO :ERRORS
 //TODO : LITERALS AND EXPRESSIONS
@@ -17,6 +15,7 @@
 
 
 using namespace std;
+bitset<6> flags(0);
 const int PC_U_BOUND = 2047;
 const int PC_L_BOUND = -2048;
 const int B_BOUND = 4095;
@@ -36,31 +35,48 @@ std::string object_code::getObject_1(Line line) {
 }
 //format 2
 //ss to convert decimal to string
+//check one register
 std::string object_code::getObject_2(Line line) {
     string operation = line.getOpCode();
     OpGroups *group = operations.checkOperation(operation);
     string operand = line.getOperand();
     stringstream ss;
     string target;
-    ss << operand.at(0);
-    ss >> target;
-    int r1 = registers.getRegNum(target);
-    ss << operand.at(2);
-    ss >> target;
-    int r2 = registers.getRegNum(target);
-    string opCode = group->getOperationObCode(operation);
-    return toHex(opCode,8).append(to_string(r1)).append(to_string(r2));
+    string opCode;
+    if (operand.find_first_of(',') != -1) {
+        ss << operand.at(0);
+        ss >> target;
+        int r1 = registers.getRegNum(target);
+        ss << operand.at(2);
+        ss >> target;
+        int r2 = registers.getRegNum(target);
+        opCode = group->getOperationObCode(operation);
+        opCode = toHex(opCode, 8).append(NumberToString(r1)).append(NumberToString(r2));
+    } else {
+        ss << operand.at(0);
+        ss >> target;
+        int r1 = registers.getRegNum(target);
+        int r2 = 0;
+        opCode = group->getOperationObCode(operation);
+        opCode = toHex(opCode, 8).append(NumberToString(r1)).append(NumberToString(r2));
+    }
+    return opCode;
 }
 //format 3 & 4
 std::string object_code::getObject_3(Line line) {
     string operation = line.getOpCode();
+    bitset<12> disp;
+    bitset<20> addr;
+    string obcode;
     //check format
     if (operation.at(0) == '+') {
         //format 4
         string address; //target address no relative here
-        bitset<6> flags(1); //1 for e
+        flags.reset();
+        flags.flip(0); //1 for e
         string operand = line.getOperand();
         char first = operand.at(0);
+        int int_address = 0;
         //check mode (indirect / immediate / direct)
         switch (first) {
             case '@' : { //indirect
@@ -77,31 +93,40 @@ std::string object_code::getObject_3(Line line) {
                 } else {
                     address = symTable.getElementAddress(operand);
                 }
+                std::istringstream(address) >> std::hex >> int_address;
+                addr = bitset<20>(int_address);
             }
                 break;
             case '#': {
                 flags.flip(4);
-                string r = "[0-9]+";
+                string r = "[0-9]+";//hexa numbers
                 regex regex1(r);
                 operand = operand.substr(1, operand.size() - 1);
                 if (regex_match(operand, regex1)) {
-                    address = object_code::toHex(bitset<20>(operand).to_string(),5);
+                    address = object_code::toHex(bitset<20>(operand).to_string(), 5);//????????
                 } else { // invalid or wrong operand
                     address = symTable.getElementAddress(operand);
                 }
+                std::istringstream(address) >> std::hex >> int_address;
+                addr = bitset<20>(int_address);
             }
                 break;
-            default:
+            default: {
+
                 //check index x
                 string indexReg = "[A-Za-z0-9]+\\,[xX]";
                 regex reg(indexReg);
+                flags.flip(4);
+                flags.flip(5);
                 if (regex_match(operand, reg)) {
-                    //TODO : contents of x register.
+                    flags.flip(3);
+                    operand = operand.substr(0, operand.size() - 2);
+                    address = symTable.getElementAddress(operand);
                 } else {
                     string r = "[A-Fa-f0-9]+";
                     regex reg2(r);
                     if (regex_match(operand, reg2)) {
-                        if(!symTable.findElement(operand)) { //check if no operand with name
+                        if (!symTable.findElement(operand)) { //check if no operand with name
                             address = operand; //if operand is hex value
                         } else {
                             address = symTable.getElementAddress(operand);
@@ -110,15 +135,19 @@ std::string object_code::getObject_3(Line line) {
                         address = symTable.getElementAddress(operand);
                     }
                 }
-
+                std::istringstream(address) >> std::hex >> int_address;
+                addr = bitset<20>(int_address);
+            }
                 break;
         }
 
-
+        OpGroups *group = operations.checkOperation(operation);
+        string opCode = group->getOperationObCode(operation);
+        opCode = opCode.substr(0, opCode.size() - 2);
+        obcode = toHex(opCode.append(flags.to_string()).append(addr.to_string()), 8);
         //format 3
         } else {
-        bitset<6> flags(0);
-        bitset<12> disp(0);
+        flags.reset();
         string operand = line.getOperand();
         char first = operand.at(0);
         switch (first) {
@@ -128,97 +157,27 @@ std::string object_code::getObject_3(Line line) {
                 string r = "[a-fA-F0-9]+";
                 regex reg(r);
                 operand = operand.substr(1, operand.size() - 1);
+                int TA;
                 if (regex_match(operand, reg)) {
                     if(!symTable.findElement(operand)) { //check if no operand with name
-                        int lc = 0;
-                        std::istringstream(line.getAddress()) >> std::hex >> lc;
-                        lc = lc + 3;
-                        int elementAddress = 0;
-                        std::istringstream(operand) >> std::hex >> elementAddress;
-                        int TA = lc - elementAddress;
-                        bool pc_relative = pc_check_bounds(TA);
-                        if (~pc_relative) {
+                        TA = getTargetAddress(operand, line.getAddress());
 
-                            int b = get_Base();
-                            if (b == -1) {
-                                //error
-                            } else {
-                                TA = b - elementAddress;
-                                bool b_relative = b_check_bounds(TA);
-                                if (!b_relative) {
-                                    //error
-                                } else {
-                                    flags.flip(2);
-                                }
-                            }
-                            //base
-                        } else {
-                            flags.flip(1);
-                            //TA decimal to binary into disp bits
-                        }
                     } else {
                         string address = symTable.getElementAddress(operand);
-                        int elementAddress = 0;
-                        std::istringstream(address) >> std::hex >> elementAddress;
-                        int lc = 0;
-                        std::istringstream(line.getAddress()) >> std::hex >> lc;
-                        lc = lc + 3;
-                        int TA = lc - elementAddress;
-                        bool pc_relative = pc_check_bounds(TA);
-                        if (~pc_relative) {
-
-                            int b = get_Base();
-                            if (b == -1) {
-                                //error
-                            } else {
-                                TA = b - elementAddress;
-                                bool b_relative = b_check_bounds(TA);
-                                if (!b_relative) {
-                                    //error
-                                } else {
-                                    flags.flip(2);
-                                }
-                            }
-                            //base
-                        } else {
-                            flags.flip(1);
-                            //TA decimal to binary into disp bits
-                        }
+                        TA = getTargetAddress(address, line.getAddress());
                     }
 
                 } else {
                     string address = symTable.getElementAddress(operand);
-                    int elementAddress = 0;
-                    std::istringstream(address) >> std::hex >> elementAddress;
-                    int lc = 0;
-                    std::istringstream(line.getAddress()) >> std::hex >> lc;
-                    lc = lc + 3;
-                    int TA = lc - elementAddress;
-                    bool pc_relative = pc_check_bounds(TA);
-                    if (~pc_relative) {
+                    TA = getTargetAddress(address, line.getAddress());
 
-                        int b = get_Base();
-                        if (b == -1) {
-                            //error
-                        } else {
-                            TA = b - elementAddress;
-                            bool b_relative = b_check_bounds(TA);
-                            if (!b_relative) {
-                                //error
-                            } else {
-                                flags.flip(2);
-                            }
-                        }
-                        //base
-                    } else {
-                        flags.flip(1);
-                        //TA decimal to binary into disp bits
-                    }
                 }
+                disp = bitset<12>(TA);
             }
 
                 break;
             case '#': {
+                int TA;
                 flags.flip(4);
                 string r = "[0-9]+";
                 regex regex1(r);
@@ -226,57 +185,94 @@ std::string object_code::getObject_3(Line line) {
                 if (regex_match(operand, regex1)) {
                     //to binary from hex decimal to binary
                     //operand is decinal
-                    disp = bitset<12>(operand);
+                    TA = toInt(operand);
                 } else { // invalid or wrong operand
                     string address = symTable.getElementAddress(operand);
-                    int elementAddress = 0;
-                    std::istringstream(address) >> std::hex >> elementAddress;
-                    int lc = 0;
-                    std::istringstream(line.getAddress()) >> std::hex >> lc;
-                    lc = lc + 3;
-                    int TA = lc - elementAddress;
-                    bool pc_relative = pc_check_bounds(TA);
-                    if (~pc_relative) {
-                        //base
-                    } else {
-                        flags.flip(1);
-                        //TA decimal to binary into disp bits
-                    }
+                    TA = getTargetAddress(address, line.getAddress());
                 }
+                disp = bitset<12>(TA);
+
+            }
+
+                break;
+            case '=': {
+                string literal = operand.substr(3, operand.size() - 4);
+                string address; //TODO : get address from literal table
+                int TA = getTargetAddress(address, line.getAddress());
+                disp = bitset<12>(TA);
             }
                 break;
-            default:
+            default: {
+                int TA;
+                flags.flip(4);
+                flags.flip(5);
                 //check index x
                 string indexReg = "[A-Za-z0-9]+\\,[xX]";
                 regex reg(indexReg);
                 if (regex_match(operand, reg)) {
-                    //contents of x register.
+                    flags.flip(3);
+                    operand = operand.substr(0, operand.size() - 2);
+                    string address = symTable.getElementAddress(operand);
+                    TA = getTargetAddress(address, line.getAddress());
                 } else {
                     //relative pc first
                     string address = symTable.getElementAddress(operand);
-                    int elementAddress = 0;
-                    std::istringstream(address) >> std::hex >> elementAddress;
-                    int lc = 0;
-                    std::istringstream(line.getAddress()) >> std::hex >> lc;
-                    lc = lc + 3;
-                    int TA = lc - elementAddress;
-                    //check bounds
-                    bool pc_relative = pc_check_bounds(TA);
-                    if (~pc_relative) {
-                        //base
-                    } else {
-                        flags.flip(1);
-                        //TA decimal to binary into disp bits
-                    }
+                    TA = getTargetAddress(address, line.getAddress());
+
                 }
+                disp = bitset<12>(TA);
                 break;
+            }
         }
         OpGroups *group = operations.checkOperation(operation);
         string opCode = group->getOperationObCode(operation);
         opCode = opCode.substr(0, opCode.size() - 2);
-        string obcode = opCode.append(flags.to_string()).append(disp.to_string());
+        obcode = toHex(opCode.append(flags.to_string()).append(disp.to_string()), 6);
     }
+    return obcode;
+}
 
+std::vector<string> object_code::getObject_dir(Line line) {
+    vector<string> result;
+    string operand = line.getOperand();
+
+    if (line.getOpCode() == "WORD") {
+        std::vector<std::string> seglist;
+        if (operand.find_first_of(',') != -1) {
+            std::stringstream test(operand);
+            std::string segment;
+            while (std::getline(test, segment, ',')) {
+                seglist.push_back(segment);
+            }
+        } else {
+            seglist.push_back(operand);
+        }
+        for (int i = 0; i < seglist.size(); ++i) {
+            std::stringstream ss;
+            ss << std::hex << seglist[i]; // int decimal_value
+            std::string res(ss.str());
+            result.push_back(res);
+        }
+    } else {
+        regex regex1("^[Xx]");
+        if (regex_match(operand, regex1)) {
+            result.push_back(operand.substr(2, operand.size() - 3));
+        } else {
+            string hex_value = "";
+            for (int i = 3; i < operand.size() - 1; i++) {
+                ostringstream ss;
+                ss << hex << (int) operand[i];
+                string temp = "";
+                for (char ch : ss.str()) {
+                    ch = toupper(ch);
+                    hex_value = hex_value + ch;
+
+                }
+            }
+            result.push_back(hex_value);
+        }
+    }
+    return result;
 }
 
 string object_code::toHex(string binary, int bits) {
@@ -303,12 +299,11 @@ bitset<12> object_code::toBinary(string hexNum) {
     bitset<12> b(n);
     return b;
 }
-std::string object_code::getObject_dir(Line line) {}
+
 
 bool object_code::pc_check_bounds(int TA) {
     return TA <= PC_U_BOUND && TA >= PC_L_BOUND;
 }
-
 
 int object_code::get_Base() {
     if (base_Exist()) {
@@ -327,4 +322,72 @@ bool object_code::b_check_bounds(int ta) {
 
 bool object_code::base_Exist() {
     return false;
+}
+
+string object_code::NumberToString(int Number) {
+    stringstream ss;
+    ss << Number;
+    return ss.str();
+}
+
+int object_code::getTargetAddress(string address, string locationCounter) {
+    int elementAddress = 0;
+    std::istringstream(address) >> std::hex >> elementAddress;
+    int lc = 0;
+    std::istringstream(locationCounter) >> std::hex >> lc;
+    lc = lc + 3;
+    int TA = lc - elementAddress;
+    bool pc_relative = pc_check_bounds(TA);
+    if (~pc_relative) {
+
+        int b = get_Base();
+        if (b == -1) {
+            //error
+        } else {
+            TA = b - elementAddress;
+            bool b_relative = b_check_bounds(TA);
+            if (!b_relative) {
+                //error
+            } else {
+                flags.flip(2);
+            }
+        }
+        //base
+    } else {
+        flags.flip(1);
+    }
+    return TA;
+}
+
+// function to convert decimal to binary
+string object_code::decToBinary(int n) {
+    string binary = "";
+    // array to store binary number
+    int binaryNum[1000];
+
+    // counter for binary array
+    int i = 0;
+    while (n > 0) {
+
+        // storing remainder in binary array
+        binaryNum[i] = n % 2;
+        n = n / 2;
+        i++;
+    }
+
+    // printing binary array in reverse order
+    for (int j = i - 1; j >= 0; j--)
+        binary.append(NumberToString(binaryNum[j]));
+}
+
+int object_code::toInt(string number) {
+    stringstream geek(number);
+
+// The object has the value 12345 and stream
+// it to the integer x
+    int x = 0;
+    geek >> x;
+
+// Now the variable x holds the value 12345
+    return x;
 }

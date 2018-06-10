@@ -7,7 +7,7 @@
 
 using namespace std ;
 OpGroup3::OpGroup3() {
-    size = 2 ;
+    size = 1 ;
 
     std::string line ;
     ifstream myfile ;
