@@ -18,22 +18,15 @@ void Operations::readOperations() {
 
     std::string line;
     ifstream myfile;
-    cout<<"before reading";
     myfile.open("operations.txt");
-    cout<<"after reading";
-        if (myfile.is_open()) {
-            cout<<"in condition";
-        OpGroups *group1 = new OpGroup1;
-            cout<<"Group 1 created";
-        OpGroups *group2 = new OpGroup2;
-            cout<<"Group 2 created";
-        OpGroups *group3 = new OpGroup3;
-            cout<<"Group 3 created";
-        OpGroups *group5 = new OpGroup5;
-            cout<<"Group 5 created";
-        OpGroups *group4 = new OpGroup4;
 
-        cout<<"after objects creations ";
+    if (myfile.is_open()) {
+        OpGroups *group1 = new OpGroup1;
+        OpGroups *group2 = new OpGroup2;
+        OpGroups *group3 = new OpGroup3;
+        OpGroups *group4 = new OpGroup4;
+        OpGroups *group5 = new OpGroup5;
+
         while (getline(myfile, line)) {
             istringstream iss(line);
             std::vector<std::string> result;
@@ -50,7 +43,7 @@ void Operations::readOperations() {
                     operations[result.at(0)] = group2;
                 } else if (operand == "num") {
                     operations[result.at(0)] = group5;
-                } else if (operand == "1") {
+                } else if (operand == "l") {
                     operations[result.at(0)] = group4;
                 }
             }
@@ -65,22 +58,25 @@ OpGroups *Operations::checkOperation(string key) {
         key = key.substr(1 , key.size() - 1);
         flag = true;
     }
-        std::map<string, OpGroups*>::iterator it;
-        it = operations.find(key);
-        if (it == operations.end()) {
-            operations.erase(key);
-            return NULL;
-        } else {
-            if (flag) {
-                if (it->second->getSize() == 3)
-                    ((OpGroup1*) it->second)->setSize();
-                else {
-                    return NULL;
-                }
+    std::map<string, OpGroups *>::iterator it;
+    it = operations.find(key);
+    if (it == operations.end()) {
+        operations.erase(key);
+        return NULL;
+    } else {
+        if (flag) {
+            if (it->second->getSize() == 3)
+                ((OpGroup1 *) it->second)->setSize(4);
+            else {
+                return NULL;
             }
-            return it->second;
-
-
+        } else {
+            if (it->second->getSize() == 4)
+                ((OpGroup1 *) it->second)->setSize(3);
         }
+        return it->second;
+
+
+    }
 }
 
