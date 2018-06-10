@@ -20,7 +20,7 @@ void Operations::readOperations() {
     ifstream myfile;
     myfile.open("operations.txt");
 
-        if (myfile.is_open()) {
+    if (myfile.is_open()) {
         OpGroups *group1 = new OpGroup1;
         OpGroups *group2 = new OpGroup2;
         OpGroups *group3 = new OpGroup3;
@@ -58,22 +58,25 @@ OpGroups *Operations::checkOperation(string key) {
         key = key.substr(1 , key.size() - 1);
         flag = true;
     }
-        std::map<string, OpGroups*>::iterator it;
-        it = operations.find(key);
-        if (it == operations.end()) {
-            operations.erase(key);
-            return NULL;
-        } else {
-            if (flag) {
-                if (it->second->getSize() == 3)
-                    ((OpGroup1*) it->second)->setSize();
-                else {
-                    return NULL;
-                }
+    std::map<string, OpGroups *>::iterator it;
+    it = operations.find(key);
+    if (it == operations.end()) {
+        operations.erase(key);
+        return NULL;
+    } else {
+        if (flag) {
+            if (it->second->getSize() == 3)
+                ((OpGroup1 *) it->second)->setSize(4);
+            else {
+                return NULL;
             }
-            return it->second;
-
-
+        } else {
+            if (it->second->getSize() == 4)
+                ((OpGroup1 *) it->second)->setSize(3);
         }
+        return it->second;
+
+
+    }
 }
 
