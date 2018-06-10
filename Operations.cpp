@@ -51,7 +51,7 @@ void Operations::readOperations() {
 
     }
 }
-    OpGroups *Operations::checkOperation(string key) {
+OpGroups *Operations::checkOperation(string key) {
 
     bool  flag = false;
     if(key.find_first_of('+') != -1){

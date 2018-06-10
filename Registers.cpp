@@ -1,13 +1,12 @@
 //
 // Created by Sohayla Mohamed on 09/06/2018.
 //
-
+#include "Registers.h"
 #include <fstream>
 #include <sstream>
 #include <vector>
-#include "Registers.h"
 
-Registers::Registers() {
+ void Registers::readRegisters() {
     std::string line;
     ifstream file;
     file.open("registers.txt");
@@ -25,6 +24,6 @@ Registers::Registers() {
     }
 }
 
-int Registers::getRegNum(string r) {
-    return Registers::regNum[r];
+int  Registers::getRegNum(string r) {
+    return regNum[r];
 }

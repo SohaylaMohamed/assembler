@@ -10,14 +10,16 @@
 #include <bitset>
 #include "Line.h"
 #include "SymTable.h"
-
+#include "Operations.h"
+#include "Registers.h"
 class object_code {
 private:
-    bitset<12> toBinary(string hexa);
+    std::bitset<12> toBinary(string hexa);
 
-    string toHex(string binary);
-
+    string toHex(string binary, int bits);
+    Operations operations;
     SymTable symTable;
+    Registers registers;
 public:
     object_code(SymTable symTable1);
    std::string getObject_1(Line line);

@@ -35,4 +35,3 @@ bool OpGroup5::checkOperand(std::string currentOperand, std::string operation) {
 
     }
 
-}

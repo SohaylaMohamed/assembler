@@ -12,10 +12,10 @@
 using namespace std;
 
 class Registers {
-private:
+protected:
     map<string, int> regNum;
 public:
-    Registers();
+    void readRegisters();
     int getRegNum(string r);
 
 };
