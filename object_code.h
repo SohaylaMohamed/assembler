@@ -28,6 +28,7 @@ public:
 
     std::vector<string> getObject_dir(Line line);
 
+    std::string getObject_lit(Line line);
 
     bool pc_check_bounds(int TA);
 

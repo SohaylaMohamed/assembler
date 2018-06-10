@@ -8,10 +8,7 @@
 //TODO :ERRORS
 //TODO : LITERALS AND EXPRESSIONS
 //TODO : CHECK KOL ELE ANA KATBAH 3LSHAN KONT NAYMA T2REBAN W 3'YRT 7AGAT
-//TODO : FINAL VALUE
-//TODO : WORD / BYTE
-//TODO : NO OBJECT CODE GROUP
-//TODO : CHECK BASE AND REGISTER X
+//TODO : CHECK BASE
 
 
 using namespace std;
@@ -273,6 +270,38 @@ std::vector<string> object_code::getObject_dir(Line line) {
         }
     }
     return result;
+}
+
+std::string object_code::getObject_lit(Line line) {
+    string operation = line.getOpCode();
+    regex regex1("^=[wW]");
+    regex regex2("^=[cC]");
+    if (regex_match(operation, regex1)) {
+        operation = operation.substr(3, operation.size() - 4);
+        int number = toInt(operation);
+        std::ostringstream ss;
+        ss << std::hex << number;
+        string num = ss.str();
+        return num;
+    } else if (regex_match(operation, regex2)) {
+        operation = operation.substr(3, operation.size() - 4);
+        string hex_value = "";
+        for (int i = 3; i < operation.size() - 1; i++) {
+            ostringstream ss;
+            ss << hex << (int) operation[i];
+            string temp = "";
+            for (char ch : ss.str()) {
+                ch = toupper(ch);
+                hex_value = hex_value + ch;
+
+            }
+        }
+        return hex_value;
+    } else {
+        operation = operation.substr(3, operation.size() - 4);
+        return operation;
+    }
+
 }
 
 string object_code::toHex(string binary, int bits) {
