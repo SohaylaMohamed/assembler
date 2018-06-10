@@ -49,7 +49,8 @@ std::string object_code::getObject_2(Line line) {
     ss >> target;
     int r2 = registers.getRegNum(target);
     string opCode = group->getOperationObCode(operation);
-    return toHex(opCode,8).append(to_string(r1)).append(to_string(r2));
+    //return toHex(opCode,8).append(to_string(r1)).append(to_string(r2));
+    return"" ;
 }
 //format 3 & 4
 std::string object_code::getObject_3(Line line) {
