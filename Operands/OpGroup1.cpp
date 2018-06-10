@@ -85,7 +85,7 @@ std::string OpGroup1::getOperationObCode(std::string operation) {
     bitset<8> b(n);
     return  b.to_string();
 }
-void OpGroup1::setSize() {
-    OpGroup1::size = 4;
+void OpGroup1::setSize(int s) {
+    OpGroup1::size = s;
 }
 

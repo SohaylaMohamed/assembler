@@ -66,10 +66,13 @@ OpGroups *Operations::checkOperation(string key) {
         } else {
             if (flag) {
                 if (it->second->getSize() == 3)
-                    ((OpGroup1*) it->second)->setSize();
+                    ((OpGroup1*) it->second)->setSize(4);
                 else {
                     return NULL;
                 }
+            } else {
+                if (it->second->getSize() == 4)
+                    ((OpGroup1*) it->second)->setSize(3);
             }
             return it->second;
 

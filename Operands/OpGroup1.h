@@ -20,7 +20,7 @@ public:
     bool checkOperand(std::string currentOperand ,  std::string operation) override ;
     std::string getOperationObCode(std::string operation) override;
 
-    void setSize();
+    void setSize(int s);
 };
 
 
