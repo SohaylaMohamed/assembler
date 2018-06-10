@@ -70,3 +70,11 @@ int Line::getFormatNo() const {
 void Line::setFormatNo(int formatNo) {
     Line::formatNo = formatNo;
 }
+
+bool Line::isAbsolute() const {
+    return absolute;
+}
+
+void Line::setAbsolute(bool absolute) {
+    Line::absolute = absolute;
+}

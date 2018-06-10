@@ -8,13 +8,21 @@ using namespace std;
 vector<Line> SymTable::createSymTable(vector<Line> configuredLines) {
     for (int i = 0; i < configuredLines.size(); ++i) {
         if ((!configuredLines[i].getLabel().empty()) && !findElement(configuredLines[i].getLabel())) {
-            symTable[configuredLines[i].getLabel()] = configuredLines[i].getAddress();
+            if (configuredLines[i].getLabel()!="*")
+            {
+                symTable[configuredLines[i].getLabel()] = configuredLines[i].getAddress();
+                symTableType[configuredLines[i].getLabel()];
+            }
         }
         if (configuredLines[i].getOpCode() == "EQU")
         {
-            if (findElement(configuredLines[i].getOperand()))
+            if (findElement(configuredLines[i].getOperand()) && configuredLines[i].getOperand()!= "*" )
             {
                 symTable[configuredLines[i].getLabel()] = symTable[configuredLines[i].getOperand()];
+            }
+            else if (configuredLines[i].getOperand()== "*")
+            {
+                symTable[configuredLines[i].getLabel()] = configuredLines[i].getAddress();
             }
             else
                 configuredLines[i].setError("***** Operand Not Predefined");

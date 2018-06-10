@@ -78,6 +78,7 @@ void LinesConfiguration::checkLine(vector<string> line) {
                     if ( (tempLine.getOpCode())[0] =='+' )
                     {
                         tempLine.setFormatNo(4);
+                        tempLine.setAbsolute(true);
                     }
                     else
                     {

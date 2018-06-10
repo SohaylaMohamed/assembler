@@ -15,11 +15,10 @@ class Expressions {
 private:
     const char * expressionToParse;
 public:
-    vector<Line> evaluateExpressions(vector<Line> configuredLines, map <string, string> symTable);
+    void evaluateExpressions(vector<Line> &configuredLines, map <string, string>& symTable);
 
     bool isExpression(string oprand);
 
-    string makeExpression(string basic_string, map<string, string> map);
 
     char peek();
 
@@ -32,6 +31,8 @@ public:
     int term();
 
     int calculate();
+
+    string makeExpression(string operand, map<string, string> symTable, bool *pBoolean);
 };
 
 
