@@ -17,6 +17,8 @@ public:
     std::map <string, string> symTable;
 
     bool findElement(string name);
+
+    string getElementAddress(string name);
 };
 
 

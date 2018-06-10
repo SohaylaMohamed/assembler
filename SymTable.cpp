@@ -26,3 +26,12 @@ bool SymTable::findElement(string name){
     map<string,string>::const_iterator it =symTable.find(name);
     return it!=symTable.end();
 }
+
+string SymTable::getElementAddress(string name) {
+    map<string, string>::const_iterator it = symTable.find(name);
+    if (it != symTable.end()) {
+        return NULL;
+    } else {
+        return it->second;
+    }
+}

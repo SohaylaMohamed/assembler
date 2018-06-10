@@ -13,6 +13,7 @@ public:
     OpGroup4();
 
     bool checkOperand(std::string currentOperand ,  std::string operation) override ;
+    std::string getOperationObCode(std::string operation) override;
 
 
 };
