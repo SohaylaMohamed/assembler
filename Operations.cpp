@@ -16,6 +16,7 @@
 #include "Operands/OpGroup8.h"
 #include "Operands/OpGroup9.h"
 #include "Operands/OpGroup10.h"
+#include "Operands/OpGroup11.h"
 
 
 void Operations::readOperations() {
@@ -35,6 +36,7 @@ void Operations::readOperations() {
         OpGroups *group8 = new OpGroup8;
         OpGroups *group9 = new OpGroup9;
         OpGroups *group10 = new OpGroup10;
+        OpGroups *group11 = new OpGroup11;
 
         while (getline(myfile, line)) {
             istringstream iss(line);
@@ -64,6 +66,8 @@ void Operations::readOperations() {
                     operations[result.at(0)] = group9;
                 } else if (operand == "e") {
                     operations[result.at(0)] = group10;
+                } else if (operand == "l") {
+                    operations[result.at(0)] = group11;
                 }
             }
         }
@@ -71,12 +75,28 @@ void Operations::readOperations() {
     }
 }
     OpGroups *Operations::checkOperation(string key) {
+
+    bool  flag = false;
+    if(key.find_first_of('+') != -1){
+        key = key.substr(1 , key.size() - 1);
+        flag = true;
+    }
         std::map<string, OpGroups*>::iterator it;
         it = operations.find(key);
         if (it == operations.end()) {
             operations.erase(key);
             return NULL;
         } else {
+            if (flag) {
+                if (it->second->getSize() == 3)
+                    ((OpGroup1*) it->second)->setSize();
+                else {
+                    return NULL;
+                }
+            }
             return it->second;
+
+
         }
-    }
+}
+

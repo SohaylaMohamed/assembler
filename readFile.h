@@ -21,7 +21,9 @@ private:
     string fileName = "" ,line;
     bool comment();
     bool Blank();
-    bool cString();
+    bool Stringwithoutequal();
+    bool Stringwithequal();
+
 
 };
 #endif //ASSEMBLER_READFILE_H

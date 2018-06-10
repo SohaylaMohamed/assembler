@@ -10,7 +10,7 @@ OpGroup4::OpGroup4() {
     size = 2 ;
 
 }
-bool OpGroup4::checkOperand(std::string currentOperand) {
+bool OpGroup4::checkOperand(std::string currentOperand, std::string operation) {
 
     string s = "^[0-9]{1,4}$";
 

@@ -36,6 +36,13 @@ public:
 
 private:
     int lineNo;
+    int formatNo;
+public:
+    int getFormatNo() const;
+
+    void setFormatNo(int formatNo);
+
+private:
     string address;
     string label;
     string opCode;

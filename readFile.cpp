@@ -28,13 +28,19 @@ void readFile::read() {
             allLines.push_back(lineVector);
             continue;
         }
-        if (cString()){
+        if (Stringwithoutequal()){
             int found=line.find_first_of('\'')-1;
             int sizestr=line.size();
             cstring = line.substr(found, sizestr);
             line.erase(found, sizestr);
         }
-        if(line.find_first_of('*') != -1){
+        if (Stringwithequal()){
+            int found=line.find_first_of('\'')-2;
+            int sizestr=line.size();
+            cstring = line.substr(found, sizestr);
+            line.erase(found, sizestr);
+        }
+        if((line.find_first_of('*') != -1)&& (line.at(line.find_first_of('*')-1) == ' ')){
             int found=line.find_first_of('*');
             int sizestr=line.size();
             thesub = line.substr(found, sizestr);
@@ -61,11 +67,33 @@ vector<vector<string>> readFile::getLines() {
     return allLines;
 }
 
-    bool readFile::Blank() {
+bool readFile::Blank() {
     regex blank("\\s*");
     return regex_match(line, blank);
 }
-bool readFile::cString() {
-  regex cSrt("(^[a-zA-Z0-9\\s]+[cC]\\'[a-zA-Z0-9\\s]+\\'\\s*)| (^[a-zA-Z0-9\\s]+[cC]\\'\\s(.*)\\'\\s*)");
-    return regex_match(line, cSrt);
+bool readFile::Stringwithoutequal() {
+    regex cSrt("(^[a-zA-Z0-9\\s]+[cC]\\'[a-zA-Z0-9\\s]+\\'\\s*)| (^[a-zA-Z0-9\\s]+[cC]\\'\\s(.*)\\'\\s*)");
+    regex xSrt("(^[a-zA-Z0-9\\s]+[xX]\\'[a-zA-Z0-9\\s]+\\'\\s*)| (^[a-zA-Z0-9\\s]+[xX]\\'\\s(.*)\\'\\s*)");
+    if(regex_match(line, cSrt)){
+        return true;
+    }
+    if(regex_match(line, xSrt)){
+        return true;
+    }
+    return false;
+}
+bool readFile::Stringwithequal() {
+    regex cSrt("(^[a-zA-Z0-9\\s]+[=][cC]\\'[a-zA-Z0-9\\s]+\\'\\s*)| (^[a-zA-Z0-9\\s]+[=][cC]\\'\\s(.*)\\'\\s*)");
+    regex xSrt("(^[a-zA-Z0-9\\s]+[=][xX]\\'[a-zA-Z0-9\\s]+\\'\\s*)| (^[a-zA-Z0-9\\s]+[=][xX]\\'\\s(.*)\\'\\s*)");
+    regex wSrt("(^[a-zA-Z0-9\\s]+[=][wW]\\'[a-zA-Z0-9\\s]+\\'\\s*)| (^[a-zA-Z0-9\\s]+[=][wW]\\'\\s(.*)\\'\\s*)");
+    if(regex_match(line, cSrt)){
+        return true;
+    }
+    if(regex_match(line, xSrt)){
+        return true;
+    }
+    if(regex_match(line, wSrt)){
+        return true;
+    }
+    return false;
 }

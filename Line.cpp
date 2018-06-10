@@ -60,5 +60,13 @@ const string &Line::getError() const {
 }
 
 void Line::setError(const string &error) {
-    Line::error = error;
+    Line::error = Line::error + error;
+}
+
+int Line::getFormatNo() const {
+    return formatNo;
+}
+
+void Line::setFormatNo(int formatNo) {
+    Line::formatNo = formatNo;
 }
