@@ -14,9 +14,11 @@ public:
     void read();
     vector<vector <string>> getLines();
 
+
 private:
     ifstream inFile;
     std::vector<std::string> lineVector;
+
     vector<vector<string> > allLines;
     string fileName = "" ,line;
     bool comment();
