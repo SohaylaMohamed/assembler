@@ -41,6 +41,10 @@ public:
     string NumberToString(int Number);
 
     int getTargetAddress(string address, string locationCounter);
+
+    string decToBinary(int n);
+
+    int toInt(string number);
 };
 
 

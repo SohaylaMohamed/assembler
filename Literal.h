@@ -25,6 +25,7 @@ public:
 
     void setPrinted(bool printed);
 
+
 private :
     string name;
     string hexValue;

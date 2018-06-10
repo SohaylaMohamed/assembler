@@ -21,6 +21,7 @@ private:
 public:
     vector<Line> configureLines(vector<vector<string>> lines);
     void checkLine(vector<string> line);
+
 };
 
 
