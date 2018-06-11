@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <regex>
+#include <vector>
+#include <sstream>
 #include "readFile.h"
 
 using namespace std;
@@ -10,8 +12,6 @@ readFile::readFile(string fileName) {
 }
 void readFile::read() {
 
-    lineVector.reserve(30);
-    allLines.reserve(100);
     //Todo Parameter type mismatch
     inFile.open(fileName);
     if (!inFile.is_open()) {
@@ -19,8 +19,7 @@ void readFile::read() {
         return;
     }
     while (inFile.good()) {
-        string thesub = "";
-        string cstring = "";
+        string thesub,cstring="";
         lineVector.clear();
         getline(inFile, line);
         if (Blank())
@@ -49,9 +48,8 @@ void readFile::read() {
             line.erase(found, sizestr);
         }
         std::istringstream iss(line);
-        for (std::string line; iss >> line;) {
+        for(std::string line; iss >> line; )
             lineVector.push_back(line);
-        }
         if(thesub != "") {
             lineVector.push_back(thesub);
         }
@@ -60,7 +58,6 @@ void readFile::read() {
         }
         allLines.push_back(lineVector);
     }
-
     inFile.close();
 
 }
@@ -78,22 +75,28 @@ bool readFile::Blank() {
     return regex_match(line, blank);
 }
 bool readFile::Stringwithoutequal() {
-    regex cSrt(R"((^[a-zA-Z0-9\s]+[cC]\'[a-zA-Z0-9\s]+\'\s*)| (^[a-zA-Z0-9\s]+[cC]\'\s(.*)\'\s*))");
-    regex xSrt(R"((^[a-zA-Z0-9\s]+[xX]\'[a-zA-Z0-9\s]+\'\s*)| (^[a-zA-Z0-9\s]+[xX]\'\s(.*)\'\s*))");
-    if(regex_match(line, cSrt)){
-        return true;
-    }
-    return regex_match(line, xSrt);
-}
-bool readFile::Stringwithequal() {
-    regex cSrt(R"((^[a-zA-Z0-9\s]+[=][cC]\'[a-zA-Z0-9\s]+\'\s*)| (^[a-zA-Z0-9\s]+[=][cC]\'\s(.*)\'\s*))");
-    regex xSrt(R"((^[a-zA-Z0-9\s]+[=][xX]\'[a-zA-Z0-9\s]+\'\s*)| (^[a-zA-Z0-9\s]+[=][xX]\'\s(.*)\'\s*))");
-    regex wSrt(R"((^[a-zA-Z0-9\s]+[=][wW]\'[a-zA-Z0-9\s]+\'\s*)| (^[a-zA-Z0-9\s]+[=][wW]\'\s(.*)\'\s*))");
+    regex cSrt("(^[a-zA-Z0-9\\s]+[cC]\\'[a-zA-Z0-9\\s]+\\'\\s*)| (^[a-zA-Z0-9\\s]+[cC]\\'\\s(.*)\\'\\s*)");
+    regex xSrt("(^[a-zA-Z0-9\\s]+[xX]\\'[a-zA-Z0-9\\s]+\\'\\s*)| (^[a-zA-Z0-9\\s]+[xX]\\'\\s(.*)\\'\\s*)");
     if(regex_match(line, cSrt)){
         return true;
     }
     if(regex_match(line, xSrt)){
         return true;
     }
-    return regex_match(line, wSrt);
+    return false;
+}
+bool readFile::Stringwithequal() {
+    regex cSrt("(^[a-zA-Z0-9\\s]+[=][cC]\\'[a-zA-Z0-9\\s]+\\'\\s*)| (^[a-zA-Z0-9\\s]+[=][cC]\\'\\s(.*)\\'\\s*)");
+    regex xSrt("(^[a-zA-Z0-9\\s]+[=][xX]\\'[a-zA-Z0-9\\s]+\\'\\s*)| (^[a-zA-Z0-9\\s]+[=][xX]\\'\\s(.*)\\'\\s*)");
+    regex wSrt("(^[a-zA-Z0-9\\s]+[=][wW]\\'[a-zA-Z0-9\\s]+\\'\\s*)| (^[a-zA-Z0-9\\s]+[=][wW]\\'\\s(.*)\\'\\s*)");
+    if(regex_match(line, cSrt)){
+        return true;
+    }
+    if(regex_match(line, xSrt)){
+        return true;
+    }
+    if(regex_match(line, wSrt)){
+        return true;
+    }
+    return false;
 }

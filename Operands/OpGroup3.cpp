@@ -11,7 +11,7 @@ OpGroup3::OpGroup3() {
 
     std::string line ;
     ifstream myfile ;
-    myfile.open("format1");
+    myfile.open("format1.txt");
     if(myfile.is_open()){
 
         while (getline(myfile , line )){
