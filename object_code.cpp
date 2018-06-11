@@ -16,7 +16,7 @@ bitset<6> flags(0);
 const int PC_U_BOUND = 2047;
 const int PC_L_BOUND = -2048;
 const int B_BOUND = 4095;
-//TODO : FEE MOSHKLA F BUILDING EL REGISTERS ANA MESH 3ARFA A7LHA "UNDEFINED REFERNCE"
+//zwdt el operations w el registers hna et2kdo en keda el pointers sa7
 object_code::object_code(SymTable symTable1) {
     object_code::symTable = symTable1;
     object_code::operations.readOperations();
@@ -280,7 +280,7 @@ std::string object_code::getObject_lit(Line line) {
         int number = toInt(operation);
         std::ostringstream ss;
         ss << std::hex << number;
-        string num = ss.str().substr(0, 6);
+        string num = ss.str().substr(0, 4);
         return num;
     } else if (regex_match(operation, regex2)) {
         operation = operation.substr(3, operation.size() - 4);

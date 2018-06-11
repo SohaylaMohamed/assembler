@@ -43,7 +43,7 @@ void Operations::readOperations() {
                     operations[result.at(0)] = group2;
                 } else if (operand == "num") {
                     operations[result.at(0)] = group5;
-                } else if (operand == "h") {
+                } else if (operand == "1") {
                     operations[result.at(0)] = group4;
                 }
             }

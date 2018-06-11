@@ -4,8 +4,6 @@
 #include "OpGroup2.h"
 
 #include <fstream>
-#include <iostream>
-#include <sstream>
 
 using namespace std;
 
@@ -15,7 +13,7 @@ OpGroup2::OpGroup2() {
 
     std::string line;
     ifstream file;
-    file.open("g2.txt");
+    file.open("format2.txt");
     if (file.is_open()) {
         while (getline(file, line)) {
             istringstream iss(line);

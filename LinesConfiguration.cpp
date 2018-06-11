@@ -27,7 +27,7 @@ vector<Line> LinesConfiguration::configureLines(vector<vector<string>> lines) {
             }
         }
     }
-    cout<"configureLines succeeded";
+    cout << "configureLines succeeded";
     return configuredLines;
 }
 
