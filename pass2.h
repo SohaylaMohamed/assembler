@@ -14,6 +14,9 @@ class pass2 {
 
     void printObjectProgam(vector<string> objectCode, vector<Line> lines);
 
+    int toInt(string number);
+
+    int calculateNumOfOperands(const string &basic_string);
 };
 
 

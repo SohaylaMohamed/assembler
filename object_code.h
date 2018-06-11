@@ -13,9 +13,8 @@
 #include "Operations.h"
 #include "Registers.h"
 class object_code {
-private:
+protected:
     std::bitset<12> toBinary(string hexa);
-
     string toHex(string binary, int bits);
     Operations operations;
     SymTable symTable;

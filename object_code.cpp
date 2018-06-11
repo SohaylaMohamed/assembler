@@ -17,7 +17,6 @@ const int PC_U_BOUND = 2047;
 const int PC_L_BOUND = -2048;
 const int B_BOUND = 4095;
 //zwdt el operations w el registers hna et2kdo en keda el pointers sa7
-//TODO : FEE MOSHKLA F BUILDING EL REGISTERS ANA MESH 3ARFA A7LHA "UNDEFINED REFERNCE"
 object_code::object_code(SymTable symTable1) {
     object_code::symTable = symTable1;
     object_code::operations.readOperations();

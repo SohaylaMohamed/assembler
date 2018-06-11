@@ -3,11 +3,11 @@
 #include <vector>
 #include "readFile.h"
 #include "LinesConfiguration.h"
-#include "Operations.h"
 #include "Address.h"
 #include "writeFile.h"
 #include "SymTable.h"
 #include "Expressions.h"
+#include "object_code.h"
 
 using namespace std;
 
@@ -27,5 +27,6 @@ int main() {
     expressions.evaluateExpressions(outlines , symTable.symTable);
     writeFile write ;
     write.write(outlines,symTable.symTable);
+    object_code ob = object_code(symTable);
     return 0;
 }
