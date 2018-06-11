@@ -16,7 +16,7 @@ public:
 
     std::map <string, string> symTable;
 
-    std::map <string,string> symTableType;
+    std::map <string,bool> symTableType;
 
     bool findElement(string name);
 

@@ -14,7 +14,7 @@ using namespace std;
 
 Address::Address() {}
 
-vector<Line> Address::setAddresses(vector<Line> configuredLines ) {
+vector<Line> Address::setAddresses(vector<Line> configuredLines,map<string , Literal> &litTab ) {
     Operations operations;
     operations.readOperations();
     int locCRT = 0;
@@ -27,7 +27,6 @@ vector<Line> Address::setAddresses(vector<Line> configuredLines ) {
             /********************CONVERTING HEX TO DECIMAL *******/
             std::istringstream(firstLineOperand) >> std::hex >> locCRT;
         }
-
         /********************CONVERTING DECIMAL TO HEX *******/
         std::ostringstream ss;
         ss << std::hex << locCRT;
@@ -163,6 +162,53 @@ vector<Line> Address::setAddresses(vector<Line> configuredLines ) {
                 {
                     locCRT += 3;
                 }
+
+                /**setting literal address in litTab**/
+                string name = configuredLines[i].getOpCode();
+                string hexValue="";
+                if (name[1]=='C')
+                {
+                    for (int i=3;i<name.size()-1;i++)
+                    {
+                        std::ostringstream ss;
+                        ss << std::hex << (int) name[i];
+                        string temp="";
+                        for (char ch : ss.str())
+                        {
+                            ch = toupper(ch);
+                            hexValue = hexValue + ch;
+                        }
+                    }
+                }
+                else if (name[1] == 'X')
+                {
+                    for (int i=3;i<name.size()-1;i++)
+                    {
+                        hexValue = hexValue + name[i];
+                    }
+                }
+                if (name[1]=='W')
+                {
+                    int value ;
+                    string valueStr;
+                    for (int i=3;i<name.size()-1;i++)
+                    {
+                        valueStr+=name [i];
+                    }
+                    /********************CONVERTING String TO DECIMAL Integer *******/
+                    std::istringstream(valueStr) >> std::dec >> value;
+                    /********************CONVERTING DECIMAL TO HEX *******/
+                    std::ostringstream ss;
+                    ss << std::hex <<value;
+                    for (char ch : ss.str())
+                    {
+                        ch = toupper(ch);
+                        hexValue = hexValue + ch;
+                    }
+                }
+
+                litTab[hexValue].setAddress(configuredLines[i].getAddress());
+
             }
 
             else
