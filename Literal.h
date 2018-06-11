@@ -27,6 +27,13 @@ public:
 
 
 private :
+    string address;
+public:
+    const string &getAddress() const;
+
+    void setAddress(const string &address);
+
+private:
     string name;
     string hexValue;
     bool printed;

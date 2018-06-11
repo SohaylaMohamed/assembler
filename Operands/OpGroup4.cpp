@@ -51,10 +51,10 @@ bool OpGroup4::checkOperand(std::string currentOperand, std::string operation) {
 
         case 2:  array = {"^([a-fA-F0-9]){1,4}$"};
             break;
-        case 3:  array = {"^\\*$","^[0-9a-zA-Z]+$" , "\0"};
+        case 3:  array = {"^\\*$","^\\w$" , "\0"};
             break;
         case 4:
-            array = {"^[0-9a-zA-Z]+$", "([a-zA-Z]+[0-9]*)+\\-[a-zA-Z0-9]+", "([a-zA-Z]+[0-9]*)+\\+[a-zA-Z0-9]+"};
+            array = {"^\\w$", "([a-zA-Z]+[0-9]*)+\\-[a-zA-Z0-9]+", "([a-zA-Z]+[0-9]*)+\\+[a-zA-Z0-9]+"};
             break;
         case 5: array = {"\0"};
             break;

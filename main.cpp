@@ -13,7 +13,6 @@ using namespace std;
 
 
 int main() {
-
     readFile fileLoader("test.txt");
     fileLoader.read();
     vector<vector <string>> lines= fileLoader.getLines();
@@ -21,7 +20,7 @@ int main() {
     SymTable symTable ;
     vector<Line> outlines = linesConfiguration.configureLines(lines);
     Address address;
-    outlines =  address.setAddresses(outlines);
+    outlines =  address.setAddresses(outlines,linesConfiguration.litTab);
     outlines = symTable.createSymTable(outlines);
     Expressions expressions;
     expressions.evaluateExpressions(outlines , symTable.symTable);

@@ -25,10 +25,11 @@ void Expressions::evaluateExpressions(vector<Line> &configuredLines, map<string,
             else {
                 expressionToParse = configuredExpression.c_str();
                 int result = calculate();
-                stringstream ss;
-                ss << result;
-                cout << configuredExpression << "=" << result << "\n";
-                configuredLines[i].setOperand(ss.str());
+                /********************CONVERTING DECIMAL TO HEX *******/
+                std::ostringstream ss;
+                ss << std::hex << result;
+                cout << configuredExpression << "=" << ss.str() << "\n";
+                configuredLines[i].setOperand(ss.str().substr(ss.str().size()-1-3));
             }
         }
     }
@@ -56,7 +57,9 @@ string Expressions::makeExpression(string operand, map<string, string> symTable,
             cout<<"--------------"<<temp<<"\n";
             if (symTable.find(temp) != symTable.end()){
                 string index = symTable[temp];
-                operand.replace(startingAddress, temp.length(), index);
+                int decimalValue;
+                std::istringstream(index) >> std::hex >> decimalValue;
+                operand.replace(startingAddress, temp.length(), NumberToString(decimalValue));
                 i += index.size() - temp.size();
             }
             else{
@@ -128,5 +131,8 @@ int Expressions::calculate()
             result -= term();
     return result;
 }
-
-
+string Expressions::NumberToString(int Number) {
+    stringstream ss;
+    ss << Number;
+    return ss.str();
+}

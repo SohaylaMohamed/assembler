@@ -29,3 +29,11 @@ bool Literal::isPrinted() const {
 void Literal::setPrinted(bool isPrinted) {
     Literal::printed = isPrinted;
 }
+
+const string &Literal::getAddress() const {
+    return address;
+}
+
+void Literal::setAddress(const string &address) {
+    Literal::address = address;
+}

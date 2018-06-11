@@ -11,7 +11,7 @@ vector<Line> SymTable::createSymTable(vector<Line> configuredLines) {
             if (configuredLines[i].getLabel()!="*")
             {
                 symTable[configuredLines[i].getLabel()] = configuredLines[i].getAddress();
-                symTableType[configuredLines[i].getLabel()];
+                symTableType[configuredLines[i].getLabel()] = true;
             }
         }
         if (configuredLines[i].getOpCode() == "EQU")
