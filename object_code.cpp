@@ -21,6 +21,7 @@ object_code::object_code(SymTable symTable1, map<string, Literal> litab) {
     object_code::symTable = symTable1;
     object_code::operations.readOperations();
     object_code::registers.readRegisters();
+    object_code::litab = litab;
 }
 //format 1
 std::string object_code::getObject_1(Line line) {
@@ -64,6 +65,7 @@ std::string object_code::getObject_3(Line line) {
     bitset<12> disp;
     bitset<20> addr;
     string obcode;
+    int TA = -3000;
     //check format
     if (operation.at(0) == '+') {
         //format 4
@@ -153,7 +155,6 @@ std::string object_code::getObject_3(Line line) {
                 string r = "[a-fA-F0-9]+";
                 regex reg(r);
                 operand = operand.substr(1, operand.size() - 1);
-                int TA;
                 if (regex_match(operand, reg)) {
                     if(!symTable.findElement(operand)) { //check if no operand with name
                         TA = getTargetAddress(operand, line.getAddress(), line.getBase());
@@ -173,7 +174,6 @@ std::string object_code::getObject_3(Line line) {
 
                 break;
             case '#': {
-                int TA;
                 flags.flip(4);
                 string r = "[0-9]+";
                 regex regex1(r);
@@ -192,14 +192,51 @@ std::string object_code::getObject_3(Line line) {
 
                 break;
             case '=': {
+                flags.flip(4);
+                flags.flip(5);
+                char c = operand.at(1);
                 string literal = operand.substr(3, operand.size() - 4);
-                string address; //TODO : get address from literal table
-                int TA = getTargetAddress(address, line.getAddress(), line.getBase());
+                if (c == 'C') {
+                    literal = charToHex(literal);
+                    string ss = literal;
+                    literal = "";
+                    for (char ch : ss) {
+                        ch = toupper(ch);
+                        literal = literal + ch;
+                    }
+
+                } else if (c == 'W') {
+                    std::stringstream ss;
+                    int value = toInt(literal);
+                    ss << std::hex << value;
+                    literal = "";
+                    for (char ch : ss.str()) {
+                        ch = toupper(ch);
+                        literal = literal + ch;
+                    }
+
+                } else if (c == '*') {
+                    string loc = line.getAddress();
+                    int lc = 0;
+                    std::istringstream(loc) >> std::hex >> lc;
+                    lc = lc + 3;
+                    std::stringstream ss;
+                    ss << std::hex << lc; // int decimal_value
+                    literal = ss.str();
+
+                }
+                std::map<string, Literal>::iterator it = litab.find(literal);
+                string address;
+                if (it != litab.end()) {
+                    address = (it->second).getAddress();
+                } else {
+                    address = "";
+                }
+                TA = getTargetAddress(address, line.getAddress(), line.getBase());
                 disp = bitset<12>(TA);
             }
                 break;
             default: {
-                int TA;
                 flags.flip(4);
                 flags.flip(5);
                 //check index x
@@ -224,7 +261,11 @@ std::string object_code::getObject_3(Line line) {
         OpGroups *group = operations.checkOperation(operation);
         string opCode = group->getOperationObCode(operation);
         opCode = opCode.substr(0, opCode.size() - 2);
-        obcode = toHex(opCode.append(flags.to_string()).append(disp.to_string()), 6);
+        if (TA == -3000) {
+            obcode = "error";
+        } else {
+            obcode = toHex(opCode.append(flags.to_string()).append(disp.to_string()), 6);
+        }
     }
     return obcode;
 }
@@ -242,7 +283,10 @@ std::vector<string> object_code::getObject_dir(Line line) {
                 seglist.push_back(segment);
             }
         } else {
-            seglist.push_back(operand);
+            std::stringstream ss;
+            int value = toInt(operand);
+            ss << std::hex << value;
+            seglist.push_back(ss.str());
         }
         for (int i = 0; i < seglist.size(); ++i) {
             std::stringstream ss;
@@ -256,7 +300,7 @@ std::vector<string> object_code::getObject_dir(Line line) {
             result.push_back(operand.substr(2, operand.size() - 3));
         } else {
             string hex_value = "";
-            for (int i = 3; i < operand.size() - 1; i++) {
+            for (int i = 2; i < operand.size() - 1; i++) {
                 ostringstream ss;
                 ss << hex << (int) operand[i];
                 string temp = "";
@@ -274,8 +318,8 @@ std::vector<string> object_code::getObject_dir(Line line) {
 
 std::string object_code::getObject_lit(Line line) {
     string operation = line.getOpCode();
-    regex regex1("^=[wW]");
-    regex regex2("^=[cC]");
+    regex regex1("^=[wW]\\'[0-9]+\\'$");
+    regex regex2("^=[cC]\\'[0-9a-zA-Z]+\\'$");
     if (regex_match(operation, regex1)) {
         operation = operation.substr(3, operation.size() - 4);
         int number = toInt(operation);
@@ -350,6 +394,8 @@ string object_code::NumberToString(int Number) {
 }
 
 int object_code::getTargetAddress(string address, string locationCounter, string base) {
+    if (address.length() == 0)
+        return -3000;
     int elementAddress = 0;
     std::istringstream(address) >> std::hex >> elementAddress;
     int lc = 0;
@@ -359,7 +405,7 @@ int object_code::getTargetAddress(string address, string locationCounter, string
     bool pc_relative = pc_check_bounds(TA);
     if (!pc_relative) {
         if (base.length() == 0) {
-            return 0;
+            return -3000;
         } else {
             int b = 0;
             std::istringstream(base) >> std::hex >> b;
@@ -367,7 +413,7 @@ int object_code::getTargetAddress(string address, string locationCounter, string
             TA = elementAddress - b;
             bool b_relative = b_check_bounds(TA);
             if (!b_relative) {
-                return 0;
+                return -3000;
             } else {
                 flags.flip(2);
             }
@@ -409,4 +455,18 @@ int object_code::toInt(string number) {
 
 // Now the variable x holds the value 12345
     return x;
+}
+
+string object_code::charToHex(string ch) {
+    string hex_value = "";
+    for (int i = 3; i < ch.size() - 1; i++) {
+        ostringstream ss;
+        ss << hex << (int) ch[i];
+        string temp = "";
+        for (char ch1 : ss.str()) {
+            ch = toupper(ch1);
+            hex_value = hex_value + ch;
+
+        }
+    }
 }

@@ -20,7 +20,7 @@ vector<string> pass2::generateObjectCode(vector<Line> lines, map<string, Literal
 
     }
     vector<string> objectCodes;
-    regex regex1("^=[cCwWxX]");
+    regex regex1("^=[cCwWxX]\\'[0-9a-zA-Z]+\\'$");
     for (int i = 0; i < lines.size(); ++i) {
         Line line = lines.at(i);
         if (&line == NULL) {
@@ -84,8 +84,11 @@ void pass2::printObjectProgam(vector<string> objectCode, vector<Line> lines) {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         Operations operations;
         //TODO: CHECK LITERALS
+        operations.readOperations();
+        int o = 0;
         for (int i = 0; i < lines.size(); i++) {
-            if (operations.checkOperation(lines[i].getOpCode())->getSize() == 0) {
+            if (operations.checkOperation(lines[i].getOpCode())->getSize() == 0 && lines[i].getOpCode() != "BYTE"
+                && lines[i].getOpCode() != "WORD") {
                 continue;
             }
             string recordStartAddress = lines[i].getAddress();
@@ -96,7 +99,7 @@ void pass2::printObjectProgam(vector<string> objectCode, vector<Line> lines) {
             while (!done) {
                 if (lines[i].getOpCode() == "WORD" || lines[i].getOpCode() == "BYTE") {
                     int numberOfOperands = calculateNumOfOperands(lines[i].getOperand());
-                    int d = i;
+                    int d = o;
                     for (int k = 0; k < numberOfOperands; ++k) {
                         recInstSize = recInstSize + objectCode[d].length();
                         if (recInstSize > MAX_SIZE) {
@@ -110,20 +113,23 @@ void pass2::printObjectProgam(vector<string> objectCode, vector<Line> lines) {
 
                     if (!done) {
                         for (int k = 0; k < numberOfOperands; ++k) {
-                            recordObjectCodes.push_back(objectCode[i]);
+                            recordObjectCodes.push_back(objectCode[o]);
                             i++;
+                            o++;
                         }
-                        i--;
                     }
 
                 } else {
-                    recInstSize = recInstSize + objectCode[i].length();
+                    recInstSize = recInstSize + objectCode[o].length();
                     if (recInstSize <= MAX_SIZE) {
-                        recordObjectCodes.push_back(objectCode[i]);
+                        recordObjectCodes.push_back(objectCode[o]);
+                        o++;
+                        i++;
                     } else {
                         recordEndAddress = lines[i].getAddress();
                         done = true;
                         i--;
+                        o--;
                     }
                 }
             }

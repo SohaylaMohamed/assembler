@@ -51,10 +51,17 @@ void LinesConfiguration::checkLine(vector<string> line) {
             tempLine.setComment(line[0]);
         } else {
             tempLine.setOpCode(line[0]);
+            OpGroups *opGroups = operations.checkOperation(line[0]);
+
+            if (opGroups->getSize() == 1) {
+                tempLine.setFormatNo(1);
+
+            } else {
+                tempLine.setFormatNo(0);
+            }
             if (tempLine.getOpCode() == "NOBASE") {
                 base = "";
             }
-            tempLine.setFormatNo(1);
         }
     } else if (line.size() == 2) {
         if (!operations.checkOperation(line[0])) {
@@ -64,7 +71,12 @@ void LinesConfiguration::checkLine(vector<string> line) {
                 tempLine.setError("***** unrecognized operation code");
             } else {
                 tempLine.setOpCode(line[1]);
-                tempLine.setFormatNo(1);
+                if (operations.checkOperation(line[1])->getSize() == 1)
+                    tempLine.setFormatNo(1);
+                else
+                    tempLine.setFormatNo(0);
+
+
             }
         } else {
             tempLine.setOpCode(line[0]);
@@ -85,11 +97,12 @@ void LinesConfiguration::checkLine(vector<string> line) {
                     {
                         tempLine.setFormatNo(4);
                         tempLine.setAbsolute(true);
-                    }
-                    else
+                    } else if ((*opGroups).getSize() != 0)
                     {
                         tempLine.setFormatNo(3);
-                    }
+                    } else
+                        tempLine.setFormatNo(0);
+
 
                 }
             } else {
@@ -127,11 +140,13 @@ void LinesConfiguration::checkLine(vector<string> line) {
                     if ( (tempLine.getOpCode())[0] =='+' )
                     {
                         tempLine.setFormatNo(4);
-                    }
-                    else
+                        tempLine.setAbsolute(true);
+                    } else if ((*opGroups).getSize() != 0)
                     {
                         tempLine.setFormatNo(3);
-                    }
+                    } else
+                        tempLine.setFormatNo(0);
+
 
                 }
             } else {

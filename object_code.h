@@ -31,6 +31,7 @@ public:
 
     std::vector<string> getObject_dir(Line line);
 
+    map<string, Literal> litab;
     std::string getObject_lit(Line line);
 
     bool pc_check_bounds(int TA);
@@ -50,6 +51,8 @@ public:
     int toInt(string number);
 
     int getTargetAddress(string address, string locationCounter, string base);
+
+    string charToHex(string ch);
 };
 
 

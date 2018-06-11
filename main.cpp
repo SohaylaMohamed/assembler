@@ -32,17 +32,12 @@ int main() {
     outlines = symTable.createSymTable(outlines);
 
     Expressions expressions;
+    writeFile write;
+    write.write(outlines, symTable.symTable);
     vector<string> output = pass.generateObjectCode(outlines, linesConfiguration.litTab);
-
+    pass.printObjectProgam(output, outlines);
     expressions.evaluateExpressions(outlines , symTable.symTable);
 
-    cout << "done4";
 
-
-    cout << "done6";
-
-    cout << "done";
-    writeFile write ;
-    write.write(outlines,symTable.symTable);
     return 0;
 }
