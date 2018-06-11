@@ -28,6 +28,7 @@ public:
 
     std::vector<string> getObject_dir(Line line);
 
+    std::string getObject_lit(Line line);
 
     bool pc_check_bounds(int TA);
 
@@ -40,11 +41,12 @@ public:
 
     string NumberToString(int Number);
 
-    int getTargetAddress(string address, string locationCounter);
 
     string decToBinary(int n);
 
     int toInt(string number);
+
+    int getTargetAddress(string address, string locationCounter, string base);
 };
 
 

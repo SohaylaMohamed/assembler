@@ -10,6 +10,7 @@ using namespace std;
 
 class Line {
 public:
+    string getBase();
     int getLineNo() const;
 
     void setLineNo(int lineNo);
@@ -49,6 +50,7 @@ private:
     string operand;
     string comment;
     string error;
+    string base;
     bool absolute=false;
 public:
     bool isAbsolute() const;

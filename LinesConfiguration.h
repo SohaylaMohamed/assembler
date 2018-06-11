@@ -17,6 +17,7 @@ class LinesConfiguration {
 private:
     Operations operations;
     vector<Line> configuredLines;
+    string base;
 public:
     map<string , Literal> litTab;
     vector<Line> configureLines(vector<vector<string>> lines);
