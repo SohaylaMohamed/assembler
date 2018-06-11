@@ -122,7 +122,7 @@ void LinesConfiguration::checkLine(vector<string> line) {
                 if((*opGroups).getSize()==2)
                 {
                     tempLine.setFormatNo(2);
-                } else
+                } else if ((*opGroups).getSize() != 0)
                 {
                     if ( (tempLine.getOpCode())[0] =='+' )
                     {
@@ -171,7 +171,7 @@ void LinesConfiguration::checkLine(vector<string> line) {
         if (name[1]=='W')
         {
             int value ;
-            string valueStr;
+            string valueStr = "";
             for (int i=3;i<name.size()-1;i++)
             {
                 valueStr+=name [i];

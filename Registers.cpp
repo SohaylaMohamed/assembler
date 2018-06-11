@@ -7,7 +7,7 @@
 #include <vector>
 
  void Registers::readRegisters() {
-    std::string line;
+     std::string line = "";
     ifstream file;
     file.open("registers.txt");
     if (file.is_open()) {

@@ -1,11 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <string.h>
 #include <sstream>
 #include <map>
 #include "writeFile.h"
-#include "LinesConfiguration.h"
 
 using namespace std;
 
@@ -21,7 +19,7 @@ void writeFile::write(vector<Line> outlines , map <string, string> symTable){
         outFile << " \n";
         outFile << addDashes(112);
         outFile << " \n";
-        string spaces;
+         string spaces = "";
         for (int i = 0; i < outlines.size(); ++i) {
            outFile << i << "";
            stringstream ss;

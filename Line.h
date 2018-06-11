@@ -44,13 +44,13 @@ public:
     void setFormatNo(int formatNo);
 
 private:
-    string address;
-    string label;
-    string opCode;
-    string operand;
-    string comment;
-    string error;
-    string base;
+    string address = "";
+    string label = "";
+    string opCode = "";
+    string operand = "";
+    string comment = "";
+    string error = "";
+    string base = "";
     bool absolute=false;
 public:
     bool isAbsolute() const;

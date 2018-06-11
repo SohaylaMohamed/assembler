@@ -8,7 +8,6 @@ using namespace std ;
 
 OpGroup4::OpGroup4() {
 
-    cout<<"in gp 4";
     size = 0 ;
 
     string line ;
@@ -22,7 +21,6 @@ OpGroup4::OpGroup4() {
             for (std::string s; iss >> s;)
                 result.push_back(s);
 
-            cout<<line<<endl;
             stringstream geek(result[1]);
             int x = 0;
             geek >> x;

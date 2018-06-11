@@ -12,16 +12,20 @@
 #include "SymTable.h"
 #include "Operations.h"
 #include "Registers.h"
+#include "Literal.h"
+
 class object_code {
 protected:
+
     std::bitset<12> toBinary(string hexa);
     string toHex(string binary, int bits);
     Operations operations;
     SymTable symTable;
     Registers registers;
 public:
-    object_code(SymTable symTable1);
-   std::string getObject_1(Line line);
+    object_code(SymTable symTable1, map<string, Literal> litab);
+
+    std::string getObject_1(Line line);
    std::string getObject_2(Line line);
    std::string getObject_3(Line line);
 

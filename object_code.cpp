@@ -17,7 +17,7 @@ const int PC_U_BOUND = 2047;
 const int PC_L_BOUND = -2048;
 const int B_BOUND = 4095;
 //zwdt el operations w el registers hna et2kdo en keda el pointers sa7
-object_code::object_code(SymTable symTable1) {
+object_code::object_code(SymTable symTable1, map<string, Literal> litab) {
     object_code::symTable = symTable1;
     object_code::operations.readOperations();
     object_code::registers.readRegisters();
@@ -37,8 +37,8 @@ std::string object_code::getObject_2(Line line) {
     OpGroups *group = operations.checkOperation(operation);
     string operand = line.getOperand();
     stringstream ss;
-    string target;
-    string opCode;
+    string target = "";
+    string opCode = "";
     if (operand.find_first_of(',') != -1) {
         ss << operand.at(0);
         ss >> target;
@@ -216,6 +216,7 @@ std::string object_code::getObject_3(Line line) {
                     TA = getTargetAddress(address, line.getAddress(), line.getBase());
 
                 }
+
                 disp = bitset<12>(TA);
                 break;
             }
@@ -245,7 +246,7 @@ std::vector<string> object_code::getObject_dir(Line line) {
         }
         for (int i = 0; i < seglist.size(); ++i) {
             std::stringstream ss;
-            ss << std::hex << seglist[i]; // int decimal_value
+            ss << std::hex << seglist.at(i); // int decimal_value
             std::string res(ss.str());
             result.push_back(res);
         }
@@ -354,16 +355,16 @@ int object_code::getTargetAddress(string address, string locationCounter, string
     int lc = 0;
     std::istringstream(locationCounter) >> std::hex >> lc;
     lc = lc + 3;
-    int TA = lc - elementAddress;
+    int TA = elementAddress - lc;
     bool pc_relative = pc_check_bounds(TA);
-    if (~pc_relative) {
+    if (!pc_relative) {
         if (base.length() == 0) {
             return 0;
         } else {
             int b = 0;
             std::istringstream(base) >> std::hex >> b;
 
-            TA = b - elementAddress;
+            TA = elementAddress - b;
             bool b_relative = b_check_bounds(TA);
             if (!b_relative) {
                 return 0;
