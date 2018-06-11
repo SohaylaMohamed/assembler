@@ -9,6 +9,7 @@
 #include <vector>
 #include "Operations.h"
 #include "Line.h"
+#include "Literal.h"
 #include <string.h>
 
 using namespace std;
@@ -16,7 +17,7 @@ using namespace std;
 class Address {
 public:
     Address();
-    vector<Line> setAddresses(vector<Line> configuredLines);
+    vector<Line> setAddresses(vector<Line> configuredLines,map<string , Literal> &litTab);
 
 private:
     vector<string> addresses;

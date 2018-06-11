@@ -33,6 +33,8 @@ public:
     int calculate();
 
     string makeExpression(string operand, map<string, string> symTable, bool *pBoolean);
+
+    string NumberToString(int Number);
 };
 
 

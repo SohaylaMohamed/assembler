@@ -17,8 +17,8 @@ class LinesConfiguration {
 private:
     Operations operations;
     vector<Line> configuredLines;
-    map<string , Literal> litTab;
 public:
+    map<string , Literal> litTab;
     vector<Line> configureLines(vector<vector<string>> lines);
     void checkLine(vector<string> line);
 
