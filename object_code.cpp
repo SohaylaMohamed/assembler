@@ -281,7 +281,7 @@ std::string object_code::getObject_lit(Line line) {
         int number = toInt(operation);
         std::ostringstream ss;
         ss << std::hex << number;
-        string num = ss.str().substr(0, 4);
+        string num = ss.str().substr(0, 6);
         return num;
     } else if (regex_match(operation, regex2)) {
         operation = operation.substr(3, operation.size() - 4);
