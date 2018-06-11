@@ -14,8 +14,10 @@ class Expressions {
 
 private:
     const char * expressionToParse;
+    bool absolute;
+    map<string,bool> termState ;
 public:
-    void evaluateExpressions(vector<Line> &configuredLines, map <string, string>& symTable);
+    bool evaluateExpressions(vector<Line> &configuredLines, map <string, string>& symTable);
 
     bool isExpression(string oprand);
 
@@ -35,6 +37,8 @@ public:
     string makeExpression(string operand, map<string, string> symTable, bool *pBoolean);
 
     string NumberToString(int Number);
+
+    string expressionType(string basic_string, map<string, string> &map);
 };
 
 
