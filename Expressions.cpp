@@ -4,12 +4,11 @@
 
 #include <vector>
 #include <map>
-#include<stack>
 #include <sstream>
 #include "Expressions.h"
 #include "Line.h"
 
-void Expressions::evaluateExpressions(vector<Line> &configuredLines, map<string, string> &symTable) {
+bool Expressions::evaluateExpressions(vector<Line> &configuredLines, map<string, string> &symTable) {
     for (int i = 0; i < configuredLines.size(); ++i) {
         string opearnd = configuredLines[i].getOperand();
         if (opearnd=="*")
@@ -19,6 +18,7 @@ void Expressions::evaluateExpressions(vector<Line> &configuredLines, map<string,
         else if (isExpression(opearnd)) {
             bool noUndefinedLabels = true;
             string configuredExpression = makeExpression(opearnd, symTable, &noUndefinedLabels);
+            string type = expressionType(opearnd,symTable);
             if (!noUndefinedLabels){
                 configuredLines[i].setError("**** Undefined Label");
             }
@@ -33,9 +33,9 @@ void Expressions::evaluateExpressions(vector<Line> &configuredLines, map<string,
             }
         }
     }
+
+    return absolute;
 }
-
-
 bool Expressions::isExpression(string operand) {
     if (operand.find_first_of('(') != -1 || operand.find_first_of('*') != -1 || operand.find_first_of('/') != -1 ||
         operand.find_first_of('-') != -1 || operand.find_first_of('+') != -1) {
@@ -43,7 +43,6 @@ bool Expressions::isExpression(string operand) {
     }
     return false;
 }
-
 string Expressions::makeExpression(string operand, map<string, string> symTable, bool *pBoolean) {
     int startingAddress = 0;
     for (int i = 0; i <operand.size(); ++i) {
@@ -70,27 +69,23 @@ string Expressions::makeExpression(string operand, map<string, string> symTable,
     }
     return operand;
 }
-
 char Expressions::peek()
 {
     return *expressionToParse;
 }
-
 char Expressions::get()
 {
     return *expressionToParse++;
 }
-
 int Expressions:: number()
 {
-    int result = get() - '0';
+    int result = get() - '0'; //convert single digit in string to its it value
     while (peek() >= '0' && peek() <= '9')
     {
         result = 10*result + get() - '0';
     }
     return result;
 }
-
 int Expressions::factor()
 {
     if (peek() >= '0' && peek() <= '9')
@@ -109,7 +104,6 @@ int Expressions::factor()
     }
     return 0; // error
 }
-
 int Expressions::term()
 {
     int result = factor();
@@ -120,7 +114,6 @@ int Expressions::term()
             result /= factor();
     return result;
 }
-
 int Expressions::calculate()
 {
     int result = term();
@@ -136,3 +129,8 @@ string Expressions::NumberToString(int Number) {
     ss << Number;
     return ss.str();
 }
+string Expressions::expressionType(string operand, map<string, string> &symTable) {
+    return std::string();
+}
+
+
