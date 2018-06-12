@@ -69,8 +69,12 @@ void writeFile::write(vector<Line> outlines , map <string, string> symTable){
 string writeFile::addSpaces (string str,int addIfEmpty)
 {
    string spaces ="";
-   for (int i=0;i<addIfEmpty-str.length();i++)
+
+   int len = addIfEmpty - str.length();
+   if (len < 0) { len = len * -1; }
+   for (int i = 0; i < len; i++)
       spaces += " ";
+
    return spaces;
 }
 
