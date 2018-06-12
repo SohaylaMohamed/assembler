@@ -8,6 +8,7 @@
 #include "SymTable.h"
 #include "Expressions.h"
 #include "pass2.h"
+#include "newExpressions.h"
 
 using namespace std;
 
@@ -30,14 +31,14 @@ int main() {
     outlines = symTable.createSymTable(outlines);
     cout << "done3";
 
+    newExpressions expressions;
+    expressions.evaluateExpressions(outlines , symTable.symTable,symTable.symTableType);
     writeFile write;
     write.write(outlines, symTable.symTable);
-    Expressions expressions;
     cout << "done5";
 
     vector<string> output = pass.generateObjectCode(outlines, linesConfiguration.litTab);
     pass.printObjectProgam(output, outlines);
-    expressions.evaluateExpressions(outlines , symTable.symTable);
 
 
     return 0;
