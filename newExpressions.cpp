@@ -39,7 +39,6 @@ void newExpressions::evaluateExpressions(vector<Line> &configuredLines, map<stri
                 {
                     symTable[configuredLines[i].getLabel()]=configuredLines[i].getOperand();
                     isAbsolute[configuredLines[i].getLabel()]=result.isIsAbsolute();
-                    configuredLines[i].setAbsolute(result.isIsAbsolute());
                 }
             }
             else
