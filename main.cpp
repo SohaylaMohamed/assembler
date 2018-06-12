@@ -7,29 +7,37 @@
 #include "writeFile.h"
 #include "SymTable.h"
 #include "Expressions.h"
-#include "object_code.h"
-#include "newExpressions.h"
+#include "pass2.h"
 
 using namespace std;
 
 
 int main() {
-    vector<vector <string>> lines;
-    LinesConfiguration linesConfiguration ;
-    SymTable symTable ;
-    vector<Line> outlines;
-    Address address;
-    newExpressions expressions;
-    writeFile write ;
-
     readFile fileLoader("test.txt");
     fileLoader.read();
-    lines= fileLoader.getLines();
-    outlines = linesConfiguration.configureLines(lines);
+    vector<vector <string>> lines= fileLoader.getLines();
+    LinesConfiguration linesConfiguration ;
+    SymTable symTable ;
+    cout << "done1";
+
+    vector<Line> outlines = linesConfiguration.configureLines(lines);
+    Address address;
+    cout << "done2";
+
     outlines =  address.setAddresses(outlines,linesConfiguration.litTab);
+    cout << "done3";
+    pass2 pass = pass2();
+    cout << "done5";
+
     outlines = symTable.createSymTable(outlines);
-    expressions.evaluateExpressions(outlines , symTable.symTable,symTable.symTableType);
-    write.write(outlines,symTable.symTable);
-    object_code ob = object_code(symTable);
+
+    Expressions expressions;
+    writeFile write;
+    write.write(outlines, symTable.symTable);
+    vector<string> output = pass.generateObjectCode(outlines, linesConfiguration.litTab);
+    pass.printObjectProgam(output, outlines);
+    expressions.evaluateExpressions(outlines , symTable.symTable);
+
+
     return 0;
 }

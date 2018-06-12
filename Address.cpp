@@ -3,13 +3,8 @@
 //
 #include <iostream>
 #include "Address.h"
-#include "Line.h"
-#include "Operations.h"
 #include <iomanip>
-#include <locale>
-#include <sstream>
-#include <string>
-#include <regex>
+
 using namespace std;
 
 Address::Address() {}
@@ -190,7 +185,7 @@ vector<Line> Address::setAddresses(vector<Line> configuredLines,map<string , Lit
                 if (name[1]=='W')
                 {
                     int value ;
-                    string valueStr;
+                    string valueStr = "";
                     for (int i=3;i<name.size()-1;i++)
                     {
                         valueStr+=name [i];

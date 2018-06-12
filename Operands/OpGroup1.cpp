@@ -83,7 +83,8 @@ std::string OpGroup1::getOperationObCode(std::string operation) {
     unsigned n;
     ss >> n;
     bitset<8> b(n);
-    return  b.to_string();
+    string result = b.to_string();
+    return result;
 }
 
 void OpGroup1::setSize(int s) {

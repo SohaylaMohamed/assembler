@@ -7,16 +7,20 @@
 
 
 #include <vector>
+#include <map>
 #include "Line.h"
+#include "Literal.h"
 
 class pass2 {
-    vector<string> generateObjectCode(vector<Line> lines);
-
+public:
     void printObjectProgam(vector<string> objectCode, vector<Line> lines);
 
     int toInt(string number);
 
     int calculateNumOfOperands(const string &basic_string);
+
+
+    vector<string> generateObjectCode(vector<Line> lines, std::map<string, Literal> litab);
 };
 
 

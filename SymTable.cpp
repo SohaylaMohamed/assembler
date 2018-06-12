@@ -37,7 +37,8 @@ bool SymTable::findElement(string name){
 
 string SymTable::getElementAddress(string name) {
     map<string, string>::const_iterator it = symTable.find(name);
-    if (it != symTable.end()) {
+    cout << name;
+    if (it == symTable.end()) {
         return NULL;
     } else {
         return it->second;

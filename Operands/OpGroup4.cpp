@@ -8,7 +8,6 @@ using namespace std ;
 
 OpGroup4::OpGroup4() {
 
-    cout<<"in gp 4";
     size = 0 ;
 
     string line ;
@@ -22,7 +21,6 @@ OpGroup4::OpGroup4() {
             for (std::string s; iss >> s;)
                 result.push_back(s);
 
-            cout<<line<<endl;
             stringstream geek(result[1]);
             int x = 0;
             geek >> x;
@@ -51,10 +49,12 @@ bool OpGroup4::checkOperand(std::string currentOperand, std::string operation) {
 
         case 2:  array = {"^([a-fA-F0-9]){1,4}$"};
             break;
-        case 3:  array = {"^\\*$","^\\w$" , "\0"};
+        case 3:
+            array = {"^\\*$", "^[0-9a-zA-Z]+$", "\0"};
             break;
         case 4:
-            array = {"^\\w$", "([a-zA-Z]+[0-9]*)+\\-[a-zA-Z0-9]+", "([a-zA-Z]+[0-9]*)+\\+[a-zA-Z0-9]+"};
+            array = {"^[0-9a-zA-Z]+$", "^\\*$", "([a-zA-Z]+[0-9]*)+\\-[a-zA-Z0-9]+",
+                     "([a-zA-Z]+[0-9]*)+\\+[a-zA-Z0-9]+"};
             break;
         case 5: array = {"\0"};
             break;

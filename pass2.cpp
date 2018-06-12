@@ -8,39 +8,61 @@
 
 const int MAX_SIZE = 60;
 
-vector<string> pass2::generateObjectCode(vector<Line> lines) {
-    int format;
-    SymTable symTable;
+vector<string> pass2::generateObjectCode(vector<Line> lines, map<string, Literal> litab) {
+    int format = 0;
+    SymTable symTable = SymTable();
     symTable.createSymTable(lines);
-    object_code calcute(symTable);
+    object_code calculate = object_code(symTable, litab);
+    for (int k = 0; k < lines.size(); ++k) {
+        cout << lines.at(k).getLabel() << "  ";
+        cout << lines.at(k).getOpCode() << "  ";
+        cout << lines.at(k).getOperand() << "  " << endl;
+
+    }
     vector<string> objectCodes;
-    regex regex1("^=[cCwWxX]");
+    regex regex1("^=[cCwWxX]\\'[0-9a-zA-Z]+\\'$");
     for (int i = 0; i < lines.size(); ++i) {
-        format = lines[i].getFormatNo();
+        Line line = lines.at(i);
+        if (&line == NULL) {
+            continue;
+        }
+
+        format = line.getFormatNo();
         switch (format) {
             case 1:
-                objectCodes.push_back(calcute.getObject_1(lines[i]));
+                objectCodes.push_back(calculate.getObject_1(line));
+
                 break;
             case 2:
-                objectCodes.push_back(calcute.getObject_2(lines[i]));
+                objectCodes.push_back(calculate.getObject_2(line));
+
                 break;
             case 3:
+
+                objectCodes.push_back(calculate.getObject_3(line));
+
+                break;
             case 4:
-                objectCodes.push_back(calcute.getObject_3(lines[i]));
+                objectCodes.push_back(calculate.getObject_3(line));
+
                 break;
             case 0 :
-                Line line = lines[i];
+
                 if (line.getOpCode() == "WORD" || line.getOpCode() == "BYTE") {
-                    vector<string> codes = calcute.getObject_dir(line);
+
+                    vector<string> codes = calculate.getObject_dir(line);
                     for (int j = 0; j < codes.size(); ++j) {
                         objectCodes.push_back(codes[j]);
                     }
                 } else if (regex_match(line.getOpCode(), regex1)) {
-                    objectCodes.push_back(calcute.getObject_lit(line));
+
+                    objectCodes.push_back(calculate.getObject_lit(line));
                 }
+
                 break;
         }
     }
+    return objectCodes;
 }
 
 void pass2::printObjectProgam(vector<string> objectCode, vector<Line> lines) {
@@ -62,8 +84,11 @@ void pass2::printObjectProgam(vector<string> objectCode, vector<Line> lines) {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         Operations operations;
         //TODO: CHECK LITERALS
+        operations.readOperations();
+        int o = 0;
         for (int i = 0; i < lines.size(); i++) {
-            if (operations.checkOperation(lines[i].getOpCode())->getSize() == 0) {
+            if (operations.checkOperation(lines[i].getOpCode())->getSize() == 0 && lines[i].getOpCode() != "BYTE"
+                && lines[i].getOpCode() != "WORD") {
                 continue;
             }
             string recordStartAddress = lines[i].getAddress();
@@ -74,7 +99,7 @@ void pass2::printObjectProgam(vector<string> objectCode, vector<Line> lines) {
             while (!done) {
                 if (lines[i].getOpCode() == "WORD" || lines[i].getOpCode() == "BYTE") {
                     int numberOfOperands = calculateNumOfOperands(lines[i].getOperand());
-                    int d = i;
+                    int d = o;
                     for (int k = 0; k < numberOfOperands; ++k) {
                         recInstSize = recInstSize + objectCode[d].length();
                         if (recInstSize > MAX_SIZE) {
@@ -88,20 +113,23 @@ void pass2::printObjectProgam(vector<string> objectCode, vector<Line> lines) {
 
                     if (!done) {
                         for (int k = 0; k < numberOfOperands; ++k) {
-                            recordObjectCodes.push_back(objectCode[i]);
+                            recordObjectCodes.push_back(objectCode[o]);
                             i++;
+                            o++;
                         }
-                        i--;
                     }
 
                 } else {
-                    recInstSize = recInstSize + objectCode[i].length();
+                    recInstSize = recInstSize + objectCode[o].length();
                     if (recInstSize <= MAX_SIZE) {
-                        recordObjectCodes.push_back(objectCode[i]);
+                        recordObjectCodes.push_back(objectCode[o]);
+                        o++;
+                        i++;
                     } else {
                         recordEndAddress = lines[i].getAddress();
                         done = true;
                         i--;
+                        o--;
                     }
                 }
             }
@@ -151,7 +179,7 @@ int pass2::calculateNumOfOperands(const string &operand) {
     std::vector<std::string> seglist;
     if (operand.find_first_of(',') != -1) {
         std::stringstream test(operand);
-        std::string segment;
+        std::string segment = "";
         while (std::getline(test, segment, ',')) {
             seglist.push_back(segment);
         }

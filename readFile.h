@@ -20,7 +20,8 @@ private:
     std::vector<std::string> lineVector;
 
     vector<vector<string> > allLines;
-    string fileName = "" ,line;
+    string fileName = "";
+    string line = "";
     bool comment();
     bool Blank();
     bool Stringwithoutequal();

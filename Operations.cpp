@@ -16,7 +16,7 @@
 
 void Operations::readOperations() {
 
-    std::string line;
+    std::string line = "";
     ifstream myfile;
     myfile.open("operations.txt");
 
