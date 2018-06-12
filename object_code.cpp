@@ -148,6 +148,8 @@ std::string object_code::getObject_3(Line line) {
         flags.reset();
         string operand = line.getOperand();
         char first = operand.at(0);
+        string r = "[a-zA-Z0-9\\$]+[\\+\\-\\*\\/][a-zA-Z0-9\\$]$";
+        regex regex1(r);
         switch (first) {
             case '@' : {
                 //TODO : disp value after calculations
