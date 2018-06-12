@@ -92,11 +92,27 @@ void pass2::printObjectProgam(vector<string> objectCode, vector<Line> lines) {
                 continue;
             }
             string recordStartAddress = lines[i].getAddress();
+            recordStartAddress = "00" + recordStartAddress;
             string recordEndAddress = "";
             vector<string> recordObjectCodes;
             int recInstSize = 0;
             bool done = false;
             while (!done) {
+                if (i == lines.size() || o >= objectCode.size()) {
+                    break;
+                }
+                if (lines[i].getOpCode().size() == 0) {
+                    i++;
+                    continue;
+                }
+                if (lines[i].getOpCode().at(0) != '=') {
+                    if (operations.checkOperation(lines[i].getOpCode())->getSize() == 0 &&
+                        lines[i].getOpCode() != "BYTE"
+                        && lines[i].getOpCode() != "WORD") {
+                        i++;
+                        continue;
+                    }
+                }
                 if (lines[i].getOpCode() == "WORD" || lines[i].getOpCode() == "BYTE") {
                     int numberOfOperands = calculateNumOfOperands(lines[i].getOperand());
                     int d = o;
@@ -114,9 +130,9 @@ void pass2::printObjectProgam(vector<string> objectCode, vector<Line> lines) {
                     if (!done) {
                         for (int k = 0; k < numberOfOperands; ++k) {
                             recordObjectCodes.push_back(objectCode[o]);
-                            i++;
                             o++;
                         }
+                        i++;
                     }
 
                 } else {
@@ -129,18 +145,20 @@ void pass2::printObjectProgam(vector<string> objectCode, vector<Line> lines) {
                         recordEndAddress = lines[i].getAddress();
                         done = true;
                         i--;
-                        o--;
                     }
                 }
             }
+            if (!done) {
+                recordEndAddress = lines[i - 1].getAddress();
+            }
             int startAddr;
             int endAddr;
-            std::istringstream(start_address) >> std::hex >> startAddr;
+            std::istringstream(recordStartAddress) >> std::hex >> startAddr;
             std::istringstream(recordEndAddress) >> std::hex >> endAddr;
             int recordSize = endAddr - startAddr;
             std::ostringstream ss;
             ss << std::hex << recordSize;
-            outFile << "T^" << start_address << "^" << ss.str();
+            outFile << "T^" << recordStartAddress << "^" << ss.str();
             for (int j = 0; j < recordObjectCodes.size(); j++) {
                 outFile << "^" << recordObjectCodes[j];
             }

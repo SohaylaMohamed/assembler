@@ -58,7 +58,7 @@ vector<Line> Address::setAddresses(vector<Line> configuredLines,map<string , Lit
     configuredLines[i].setAddress(address);
     //Todo if current line is a comment put empty address
 
-    for (int i=1;i<configuredLines.size()-1;i++) {
+    for (int i = 1; i < configuredLines.size(); i++) {
         Line currentLine = configuredLines[i];
         if (currentLine.getComment().find_first_of(".") == -1) {
             string currentLineOpcode = currentLine.getOpCode();
@@ -216,7 +216,8 @@ vector<Line> Address::setAddresses(vector<Line> configuredLines,map<string , Lit
         ss << std::hex << locCRT;
         string address = ss.str();
         addresses.push_back(address);
-        configuredLines[i+1].setAddress(address);
+        if (i != configuredLines.size() - 1)
+            configuredLines[i + 1].setAddress(address);
     }
 
     addresses.push_back("1");
