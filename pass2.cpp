@@ -23,7 +23,7 @@ vector<string> pass2::generateObjectCode(vector<Line> lines, map<string, Literal
     regex regex1("^=[cCwWxX]\\'[0-9a-zA-Z]+\\'$");
     for (int i = 0; i < lines.size(); ++i) {
         Line line = lines.at(i);
-        if (&line == NULL) {
+        if (&line == NULL || line.getError().length() != 0) {
             continue;
         }
 

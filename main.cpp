@@ -25,15 +25,16 @@ int main() {
     cout << "done2";
 
     outlines =  address.setAddresses(outlines,linesConfiguration.litTab);
-    cout << "done3";
     pass2 pass = pass2();
-    cout << "done5";
 
     outlines = symTable.createSymTable(outlines);
+    cout << "done3";
 
-    Expressions expressions;
     writeFile write;
     write.write(outlines, symTable.symTable);
+    Expressions expressions;
+    cout << "done5";
+
     vector<string> output = pass.generateObjectCode(outlines, linesConfiguration.litTab);
     pass.printObjectProgam(output, outlines);
     expressions.evaluateExpressions(outlines , symTable.symTable);
