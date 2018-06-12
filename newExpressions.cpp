@@ -11,7 +11,7 @@
 #include "Term.h"
 
 
-Term newExpressions::evaluateExpressions(vector<Line> &configuredLines, map<string, string> &symTable,
+void newExpressions::evaluateExpressions(vector<Line> &configuredLines, map<string, string> &symTable,
                                          map<string, bool> &isAbsolute) {
 
     Term result;
@@ -39,6 +39,7 @@ Term newExpressions::evaluateExpressions(vector<Line> &configuredLines, map<stri
                 {
                     symTable[configuredLines[i].getLabel()]=configuredLines[i].getOperand();
                     isAbsolute[configuredLines[i].getLabel()]=result.isIsAbsolute();
+                    configuredLines[i].setAbsolute(result.isIsAbsolute());
                 }
             }
             else
@@ -48,8 +49,6 @@ Term newExpressions::evaluateExpressions(vector<Line> &configuredLines, map<stri
 
         }
     }
-
-    return result;
 }
 
 bool newExpressions::isExpression(string operand) {
